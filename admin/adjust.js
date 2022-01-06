@@ -13,7 +13,7 @@ export function doAdjust(msg) {
             var player = players.get(args[2]);
             for(let i=0; i<player.movelist.length; i++) {
                 if (player.movelist[i].split(' ')[1].toLowerCase().startsWith(args[3].toLowerCase())) {
-                    players.get(args[2]).movelist[i] = args[4] + ' ' + args[3].toLowerCase();
+                    players.get(args[2]).movelist[i] = args[4] + ' ' + args[3];
                     msg.reply('Move has been adjusted!');
                     return;
                 }

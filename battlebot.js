@@ -4,7 +4,7 @@
 // || AUTHOR: Harley Welsby, https://github.com/harleywelsby  ||
 // =============================================================
 
-import { token, admin, SAVE_CHANNEL, AUTOSAVE_TIME } from './config.js';
+import { token, admin, LOG_CHANNEL, AUTOSAVE_TIME } from './config.js';
 import { Client, Intents } from 'discord.js';
 import { getTimeToTrain } from './handlers.js';
 import Papa from 'papaparse';
@@ -40,6 +40,8 @@ export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GU
 bot.on('ready', () => {
     console.log('logged in!');
     bot.user.setActivity('everything WORK', { type: 'WATCHING' });
+    var channel = bot.channels.cache.find(channel => channel.id === LOG_CHANNEL());
+    channel.send(`Rebooted and logged in`);
     doFiles();
 });
 
@@ -135,6 +137,10 @@ bot.on('messageCreate', msg => {
     //Train up a move
     else if (msg.content.startsWith('.train')) {
        doTrain(msg);
+    }
+
+    else if (msg.content.startsWith('.help')) {
+        msg.reply('Help can be found on the Battlebot Wiki: https://github.com/harleywelsby/Battlebot.js/wiki');
     }
 
     //Handle fight commands
