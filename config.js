@@ -21,3 +21,7 @@ export function SAVE_CHANNEL() {
 export function AUTOSAVE_TIME() {
     return (60000)*60;
 }
+
+export function BOT_ID() {
+    return '';
+}
