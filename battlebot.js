@@ -23,17 +23,17 @@ import { doFinTrain } from './admin/finishTraining.js';
 import { doAdjust } from './admin/adjust.js';
 import { autosave, getLastAutosave } from './admin/autosave.js';
 
-//FILES
+//File processing, I/O
 var movefile = './data/moves.csv';
 var lastSave = null;
 
-//DATA
+//Internal data
 export var moves = new Map();
 export var players = new Map();
 export var activeTraining = new Map();
 export var activeFights = new Map();
 
-//INITIALIZATIONS
+//Init the bot
 export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 //Login

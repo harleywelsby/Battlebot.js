@@ -1,6 +1,8 @@
 import { players, activeFights } from '../battlebot.js';
 import { MessageEmbed } from 'discord.js';
 import { getNameFromId } from '../handlers.js';
+import { BOT_ID } from '../config.js';
+import { botfight } from './botfight.js';
 
 //Return a message embed for a fight turn
 export function getFightEmbed(fight, move) {
@@ -20,7 +22,7 @@ export function getFightEmbed(fight, move) {
 }
 
 //Initialize the arena
-function initFightArena(msg, fight) {
+export function initFightArena(msg, fight) {
     var embed = getFightEmbed(fight, null);
     msg.channel.send({ embeds: [embed] });
 }
@@ -83,6 +85,11 @@ export function doFightLobby(msg) {
                 msg.reply('Fight successfully cancelled!');
                 return;
             }
+        }
+
+        else if(msg.mentions.users.first().id.startsWith(BOT_ID())) {
+            botfight(msg);
+            return;
         }
         
         else {

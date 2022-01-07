@@ -1,8 +1,9 @@
 import { players, activeFights, moves } from '../battlebot.js';
-import { MISS_CHANCE } from '../config.js';
+import { BOT_ID, MISS_CHANCE } from '../config.js';
 import { getFightEmbed } from '../commands/fight.js';
 import { eloAdjustment, getNameFromId } from '../handlers.js';
 import { getMoveAccuracy, getMoveDamage } from '../commands/moves.js';
+import { doTurn } from './botfight.js';
 
 //Make sure the move that is about to be made can actually be played
 function isValidMove(msg) {
@@ -129,8 +130,8 @@ export function doMoveLogic(msg) {
                 if(attacker.lastmove.name.startsWith(move.name)) {
                     toHit = toHit * 0.7;
                 }
-                attacker.lastMove = move;
             }
+            attacker.lastMove = move;
 
             //Calculate "Wide not tall" bonus
             var highest = parseInt(getHighestLevel(attacker));
@@ -164,51 +165,92 @@ export function doMoveLogic(msg) {
         players.get(msg.author.id).lastmove = move;
         activeFights.get(fight.player2 + 'vs' + fight.player1).lastTurn = move;
 
-        if(fight.p1hp <= 0) {
-            msg.reply(`KO! ${getNameFromId(fight.player2)} destroyed ${getNameFromId(fight.player1)}!`)
-            players.get(fight.player1).lastmove = null;
-            players.get(fight.player1).effect = null;
-            players.get(fight.player2).lastmove = null;
-            players.get(fight.player2).effect = null;
+        //TODO:: Clean this up into a proper method
+        if (!fight.player1.includes(BOT_ID())) {
+            if(fight.p1hp <= 0) {
+                msg.reply(`KO! ${getNameFromId(fight.player2)} destroyed ${getNameFromId(fight.player1)}!`)
+                players.get(fight.player1).lastmove = null;
+                players.get(fight.player1).effect = null;
+                players.get(fight.player2).lastmove = null;
+                players.get(fight.player2).effect = null;
 
-            players.get(fight.player1).xp = 
-                parseInt(
-                    parseInt(players.get(fight.player1).xp) + 
-                    eloAdjustment(false, fight.player2, fight.player1)
-                );
-            players.get(fight.player2).xp = 
-                parseInt(
-                    parseInt(players.get(fight.player2).xp) + 
-                    eloAdjustment(true, fight.player2, fight.player1)
-                );
-            
-            msg.channel.send(`<@${fight.player2}> gained ${eloAdjustment(true, fight.player2, fight.player1)} rank xp!`);
-            msg.channel.send(`<@${fight.player1}> lost ${eloAdjustment(false, fight.player2, fight.player1)} rank xp!`);
+                players.get(fight.player1).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player1).xp) + 
+                        eloAdjustment(false, fight.player2, fight.player1)
+                    );
+                players.get(fight.player2).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player2).xp) + 
+                        eloAdjustment(true, fight.player2, fight.player1)
+                    );
+                
+                msg.channel.send(`<@${fight.player2}> gained ${eloAdjustment(true, fight.player2, fight.player1)} rank xp!`);
+                msg.channel.send(`<@${fight.player1}> lost ${eloAdjustment(false, fight.player2, fight.player1)} rank xp!`);
 
-            activeFights.delete(fight.player2 + 'vs' + fight.player1);
+                activeFights.delete(fight.player2 + 'vs' + fight.player1);
+            }
+            else if (fight.p2hp <= 0) {
+                msg.reply(`KO! ${getNameFromId(fight.player1)} destroyed ${getNameFromId(fight.player2)}!`)
+                players.get(fight.player1).lastmove = null;
+                players.get(fight.player1).effect = null;
+                players.get(fight.player2).lastmove = null;
+                players.get(fight.player2).effect = null;
+
+                players.get(fight.player1).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player1).xp) + 
+                        eloAdjustment(true, fight.player1, fight.player2)
+                    );
+                players.get(fight.player2).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player2).xp) + 
+                        eloAdjustment(false, fight.player1, fight.player2)
+                    );
+                
+                msg.channel.send(`<@${fight.player1}> gained ${eloAdjustment(true, fight.player1, fight.player2)} rank xp!`);
+                msg.channel.send(`<@${fight.player2}> lost ${eloAdjustment(false, fight.player1, fight.player2)} rank xp!`);
+
+                activeFights.delete(fight.player2 + 'vs' +fight.player1);
+            }
         }
-        else if (fight.p2hp <= 0) {
-            msg.reply(`KO! ${getNameFromId(fight.player1)} destroyed ${getNameFromId(fight.player2)}!`)
-            players.get(fight.player1).lastmove = null;
-            players.get(fight.player1).effect = null;
-            players.get(fight.player2).lastmove = null;
-            players.get(fight.player2).effect = null;
+        else {
+            //Check if game's done and finish it if so
+            if(fight.p1hp <= 0) {
+                msg.reply(`KO! ${getNameFromId(fight.player2)} destroyed ${getNameFromId(fight.player1)}!`)
+                players.get(fight.player1).lastmove = null;
+                players.get(fight.player1).effect = null;
+                players.get(fight.player2).lastmove = null;
+                players.get(fight.player2).effect = null;
 
-            players.get(fight.player1).xp = 
-                parseInt(
-                    parseInt(players.get(fight.player1).xp) + 
-                    eloAdjustment(true, fight.player1, fight.player2)
-                );
-            players.get(fight.player2).xp = 
-                parseInt(
-                    parseInt(players.get(fight.player2).xp) + 
-                    eloAdjustment(false, fight.player1, fight.player2)
-                );
-            
-            msg.channel.send(`<@${fight.player1}> gained ${eloAdjustment(true, fight.player1, fight.player2)} rank xp!`);
-            msg.channel.send(`<@${fight.player2}> lost ${eloAdjustment(false, fight.player1, fight.player2)} rank xp!`);
+                players.get(fight.player2).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player2).xp) + 
+                        eloAdjustment(true, fight.player2, fight.player1)
+                    );
+                msg.channel.send(`<@${fight.player2}> gained ${eloAdjustment(true, fight.player2, fight.player1)} rank xp!`);
 
-            activeFights.delete(fight.player2 + 'vs' +fight.player1);
+                activeFights.delete(fight.player2 + 'vs' + fight.player1);
+            }
+            else if (fight.p2hp <= 0) {
+                msg.reply(`KO! ${getNameFromId(fight.player1)} destroyed ${getNameFromId(fight.player2)}!`)
+                players.get(fight.player1).lastmove = null;
+                players.get(fight.player1).effect = null;
+                players.get(fight.player2).lastmove = null;
+                players.get(fight.player2).effect = null;
+
+                players.get(fight.player2).xp = 
+                    parseInt(
+                        parseInt(players.get(fight.player2).xp) + 
+                        eloAdjustment(false, fight.player1, fight.player2)
+                    );
+                msg.channel.send(`<@${fight.player2}> lost ${eloAdjustment(false, fight.player1, fight.player2)} rank xp!`);
+
+                activeFights.delete(fight.player2 + 'vs' +fight.player1);
+            }
+            else {
+                doTurn(msg, fight);
+            }
         }
     }
 }
