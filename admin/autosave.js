@@ -2,7 +2,7 @@ import { players, bot } from '../battlebot.js';
 import { SAVE_CHANNEL } from '../config.js';
 
 export function autosave() {
-    var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL());
+    var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL);
 
     var toSend = '';
 
@@ -29,7 +29,7 @@ export function autosave() {
 }
 
 export function getLastAutosave() {
-    var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL());
+    var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL);
     channel.messages.fetch({ limit:  1 })
         .then(messages => {
             let lastSave = messages.first().content;

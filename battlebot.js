@@ -40,7 +40,7 @@ export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GU
 bot.on('ready', () => {
     console.log('logged in!');
     bot.user.setActivity('everything WORK', { type: 'WATCHING' });
-    var channel = bot.channels.cache.find(channel => channel.id === LOG_CHANNEL());
+    var channel = bot.channels.cache.find(channel => channel.id === LOG_CHANNEL);
     channel.send(`Rebooted and logged in`);
     doFiles();
 });
@@ -72,7 +72,7 @@ function doFiles() {
 //On message check
 bot.on('messageCreate', msg => {
 
-    if(Date.now() - parseInt(lastSave) >= AUTOSAVE_TIME()) {
+    if(Date.now() - parseInt(lastSave) >= AUTOSAVE_TIME) {
         autosave();
         lastSave = Date.now();
     }
@@ -124,7 +124,7 @@ bot.on('messageCreate', msg => {
     }
 
     else if (msg.content.startsWith('.save')) {
-        if(!msg.author.id.startsWith(admin())) {
+        if(!msg.author.id.startsWith(admin)) {
             msg.reply('You don\'t have permission to do that!');
             return;
         }
@@ -151,17 +151,11 @@ bot.on('messageCreate', msg => {
     else if(msg.content.startsWith('.profile') || msg.content.startsWith('.rank')) {
         doProfile(msg);
     }
-
-    //Admin debug command (Current thing being tested)
-    else if(msg.content.startsWith('.debug')) {
-        //getLastAutosave();
-        //autosave();
-    }
     
     //Finish all currently training moves
     else if(msg.content.startsWith('.fintrain')) {
         //Stop users other than server admin using fintrain
-        if(!msg.author.id.startsWith(admin())) {
+        if(!msg.author.id.startsWith(admin)) {
             msg.reply('You don\'t have permission to do that!');
             return;
         }
@@ -173,7 +167,7 @@ bot.on('messageCreate', msg => {
 
     else if(msg.content.startsWith('.adjust')) {
         //Stop users other than server admin using adjust
-        if(!msg.author.id.startsWith(admin())) {
+        if(!msg.author.id.startsWith(admin)) {
             msg.reply('You don\'t have permission to do that!');
             return;
         }

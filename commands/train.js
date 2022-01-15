@@ -58,7 +58,7 @@ export function doTrain(msg) {
         }
         else {
             //Player's move is already max level
-            if(playermove.level > LEVEL_CAP()){
+            if(playermove.level > LEVEL_CAP){
                 msg.reply('You\'ve already reached max level for this move!');
                 return;
             }

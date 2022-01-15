@@ -72,7 +72,7 @@ export function doTurn(msg, fight) {
     //TODO:: Status effects here
 
     //Move hits
-    if (miss > MISS_CHANCE()) {
+    if (miss > MISS_CHANCE) {
         if (attacker.lastmove != null) {
             if(attacker.lastmove.name.startsWith(move.name)) {
                 toHit = toHit * 0.7;
@@ -86,7 +86,7 @@ export function doTurn(msg, fight) {
 
     //Get embed desc
     var moveDescription = null;
-    if(miss > MISS_CHANCE()) {
+    if(miss > MISS_CHANCE) {
         moveDescription = `POW! ${getNameFromId(BOT_ID())} hit ${getNameFromId(fight.player2)} with a ${move.name} (${move.type}) for ${toHit}hp!\n`
     }
     else {

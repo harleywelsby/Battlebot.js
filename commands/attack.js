@@ -124,7 +124,7 @@ export function doMoveLogic(msg) {
             if(attacker.effect.toLowerCase() == 'concussion')
         }*/
 
-        if(miss > MISS_CHANCE()) {
+        if(miss > MISS_CHANCE) {
             //If move was played last turn, it does 70% damage
             if(attacker.lastmove != null) {
                 if(attacker.lastmove.name.startsWith(move.name)) {
@@ -148,7 +148,7 @@ export function doMoveLogic(msg) {
 
         //Get embed description
         var moveDescription = null;
-        if(miss > MISS_CHANCE()) {
+        if(miss > MISS_CHANCE) {
             moveDescription = `POW! ${getNameFromId(msg.author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} (${move.type}) for ${toHit}hp!\n`
         }
         else {

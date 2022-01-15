@@ -1,27 +1,31 @@
+// Config variables for BattlebotJS
+
+// Administration
+
+export const debug = false; // Toggle local or prod build
+
 export function token() {
-    return token = '';
-}
-
-export function admin() {
-    return '';
-}
-
-export function LEVEL_CAP() {
-    return 30;
-}
-
-export function MISS_CHANCE() {
-    return 20;
-}
-
-export function SAVE_CHANNEL() {
-    return '';
-}
-
-export function AUTOSAVE_TIME() {
-    return (60000)*60;
+    return debug ? 
+        '': 
+        '';
 }
 
 export function BOT_ID() {
-    return '';
+    return debug ?
+        '':
+        '';
 }
+
+export const admin = '';
+
+export const LOG_CHANNEL = '';
+
+export const SAVE_CHANNEL = '';
+
+// Game functionality
+
+export const LEVEL_CAP = 30;
+
+export const MISS_CHANCE = 20;
+
+export const AUTOSAVE_TIME = (60000)*60;
