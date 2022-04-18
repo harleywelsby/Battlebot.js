@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "es2015", 
+    "outDir": "./tscompile",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+  }
+}

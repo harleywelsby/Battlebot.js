@@ -4,8 +4,7 @@
 // || AUTHOR: Harley Welsby, https://github.com/harleywelsby  ||
 // =============================================================
 
-import { token, admin, LOG_CHANNEL, AUTOSAVE_TIME } from './config.js';
-import { Client, Intents } from 'discord.js';
+import { admin, LOG_CHANNEL, AUTOSAVE_TIME } from './deployConfig.js';
 import { getTimeToTrain } from './handlers.js';
 import Papa from 'papaparse';
 import * as fs from 'fs';
@@ -32,18 +31,6 @@ export var moves = new Map();
 export var players = new Map();
 export var activeTraining = new Map();
 export var activeFights = new Map();
-
-//Init the bot
-export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-
-//Login
-bot.on('ready', () => {
-    console.log('logged in!');
-    bot.user.setActivity('everything WORK', { type: 'WATCHING' });
-    var channel = bot.channels.cache.find(channel => channel.id === LOG_CHANNEL);
-    channel.send(`Rebooted and logged in`);
-    doFiles();
-});
 
 //Load data
 function doFiles() {
@@ -181,5 +168,3 @@ bot.on('messageCreate', msg => {
         doMoveLogic(msg);
     }
 });
-
-bot.login(token());
