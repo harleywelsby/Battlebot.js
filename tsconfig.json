@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "es2015", 
+    "module": "esnext", 
     "outDir": "./tscompile",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,

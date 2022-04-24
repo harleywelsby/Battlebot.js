@@ -1,6 +1,6 @@
 import { Client, Intents, TextChannel } from 'discord.js';
 import { Token, LogChannel, ClientId, GuildId } from './tokens.js';
-import { doFiles } from './data/dataHandler.js';
+import { LoadAllData } from './data/dataHandler.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
@@ -38,7 +38,7 @@ bot.on('ready', () => {
     if (channel != undefined && channel instanceof TextChannel) {
         channel.send(`Rebooted and logged in`);
     }
-    doFiles();
+    LoadAllData();
 });
 
 bot.on('interactionCreate', interaction => {
