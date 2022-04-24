@@ -1,5 +1,6 @@
 import { Client, Intents, TextChannel } from 'discord.js';
 import { Token, LogChannel } from './tokens.js';
+import { doFiles } from './data/dataHandler.js';
 
 //Init the bot
 export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -12,7 +13,7 @@ bot.on('ready', () => {
     if (channel != undefined && channel instanceof TextChannel) {
         channel.send(`Rebooted and logged in`);
     }
-    //doFiles();
+    doFiles();
 });
 
 bot.login(Token());

@@ -4,10 +4,8 @@
 // || AUTHOR: Harley Welsby, https://github.com/harleywelsby  ||
 // =============================================================
 
-import { admin, LOG_CHANNEL, AUTOSAVE_TIME } from './deployConfig.js';
+import { admin, AUTOSAVE_TIME } from './deployConfig.js';
 import { getTimeToTrain } from './handlers.js';
-import Papa from 'papaparse';
-import * as fs from 'fs';
 
 //Commands
 import { getMoves } from './commands/moves.js';
@@ -20,41 +18,7 @@ import { doProfile } from './commands/profile.js';
 //Admin
 import { doFinTrain } from './admin/finishTraining.js';
 import { doAdjust } from './admin/adjust.js';
-import { autosave, getLastAutosave } from './admin/autosave.js';
-
-//File processing, I/O
-var movefile = './data/moves.csv';
-var lastSave = null;
-
-//Internal data
-export var moves = new Map();
-export var players = new Map();
-export var activeTraining = new Map();
-export var activeFights = new Map();
-
-//Load data
-function doFiles() {
-    Papa.parse(fs.createReadStream(movefile), {
-        delimiter: ",",
-        header: false,
-        complete: function(results) {
-            for(let i=0; i<results.data.length; i++){
-                var move = {
-                    name: results.data[i][0],
-                    type: results.data[i][1],
-                    hp: results.data[i][2],
-                    level: results.data[i][3]
-                }
-                moves.set(move.name.toLowerCase(), move);
-            }
-            console.log('Moves initialized!');
-        }
-    });
-
-    getLastAutosave();
-    lastSave = Date.now();
-    console.log('Players initialized!');
-}
+import { autosave } from './admin/autosave.js';
 
 //On message check
 bot.on('messageCreate', msg => {

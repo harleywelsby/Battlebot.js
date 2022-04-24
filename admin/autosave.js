@@ -27,25 +27,3 @@ export function autosave() {
 
     channel.send(toSend);
 }
-
-export function getLastAutosave() {
-    var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL);
-    channel.messages.fetch({ limit:  1 })
-        .then(messages => {
-            let lastSave = messages.first().content;
-            var playerdata = lastSave.split('\n');
-
-            for(let i=0; i<playerdata.length; i++) { 
-                var values = playerdata[i].split(',');
-                var player = {
-                    name: values[0],
-                    xp: values[1],
-                    effect: null,
-                    movelist: playerdata[i].split(values[0]+','+values[1]+',')[1].split(','),
-                    lastmove: null
-                }
-                players.set(player.name, player);
-            }
-        })
-        .catch(console.error);
-}
