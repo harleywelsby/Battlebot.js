@@ -9,7 +9,7 @@ import { signup, doSignup } from './commands/signup.js';
 
 // Load commands
 const commands = [];
-//commands.push(signup.toJSON);
+commands.push(signup.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
