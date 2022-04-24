@@ -1,4 +1,4 @@
-import { players, activeTraining, moves } from '../battlebot.js';
+import { moves, activeTraining, players } from '../data/database.js';
 import { LEVEL_CAP } from '../config.js';
 import { getTimeLeft, getTimeToTrain } from '../handlers.js';
 

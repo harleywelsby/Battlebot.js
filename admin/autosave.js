@@ -1,4 +1,5 @@
-import { players, bot } from '../battlebot.js';
+import { bot } from '../startup.js';
+import { players }from '../data/database.js';
 import { SAVE_CHANNEL } from '../config.js';
 
 export function autosave() {

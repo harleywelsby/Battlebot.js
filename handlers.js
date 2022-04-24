@@ -1,4 +1,5 @@
-import { moves, bot, players } from './battlebot.js';
+import { moves, players } from './data/database.js';
+import { bot } from './startup.js';
 
 //Sort moves by move type
 export function sortList(from, to, type) {

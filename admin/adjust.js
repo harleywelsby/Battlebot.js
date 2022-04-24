@@ -1,4 +1,4 @@
-import { players } from "../battlebot.js";
+import { players }from '../data/database.js';
 
 export function doAdjust(msg) { 
     var args = msg.content.split(' ');

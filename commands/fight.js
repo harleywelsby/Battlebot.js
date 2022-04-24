@@ -1,4 +1,4 @@
-import { players, activeFights } from '../battlebot.js';
+import { players, activeFights } from '../data/database.js';
 import { MessageEmbed } from 'discord.js';
 import { getNameFromId } from '../handlers.js';
 import { BOT_ID } from '../config.js';

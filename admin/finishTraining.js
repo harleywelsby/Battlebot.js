@@ -1,4 +1,4 @@
-import { players, activeTraining } from '../battlebot.js';
+import { activeTraining, players }from '../data/database.js';
 
 //Force-finish all current training
 export function doFinTrain(msg) {

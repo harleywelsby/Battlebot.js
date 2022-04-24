@@ -1,8 +1,13 @@
-import { moves, players } from '../battlebot.js';
+import { moves, players } from '../data/database.js';
 import { sortList, getRandomInt } from '../handlers.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+
+export const signup = new SlashCommandBuilder()
+    .setName('signup')
+    .setDescription('Signs you up to the Battlebot and gives you some starting moves!');
 
 //Sign up to the bot
-export function doSignup(msg) {
+export async function doSignup(msg) {
     if(players.has(msg.author.id)){
         msg.reply('You\'ve already signed up!');
     }

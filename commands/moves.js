@@ -1,4 +1,4 @@
-import { players, moves } from '../battlebot.js';
+import { moves, players } from '../data/database.js';
 import { sortList } from '../handlers.js';
 
 //Calculate accuracy of a given move

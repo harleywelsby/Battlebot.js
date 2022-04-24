@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { players } from "../battlebot.js";
+import { players } from '../data/database.js';
 import { getNameFromId } from "../handlers.js";
 
 export function doProfile(msg) {

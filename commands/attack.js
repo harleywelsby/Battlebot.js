@@ -1,4 +1,4 @@
-import { players, activeFights, moves } from '../battlebot.js';
+import { activeFights, moves, players }from '../data/database.js';
 import { BOT_ID, MISS_CHANCE } from '../config.js';
 import { getFightEmbed } from '../commands/fight.js';
 import { eloAdjustment, getNameFromId } from '../handlers.js';
