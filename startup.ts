@@ -5,7 +5,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 
 // Command imports
-import { signup, doSignup } from './commands/signup.js';
+import { signup, doSignup } from './commands/user/signup.js';
 
 // Load commands
 const commands = [];
