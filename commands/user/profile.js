@@ -1,16 +1,15 @@
 import { MessageEmbed } from "discord.js";
-import { players, ranks, Rank } from '../../data/database.js';
+import { players, ranks } from '../../data/database.js';
 import { getNameFromId } from "../../handlers.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { EMBED_COLOUR } from "../../config.js";
 import { bot } from "../../startup.js";
-import { TextChannel } from "discord.js";
 
 export const profile = new SlashCommandBuilder()
     .setName('profile')
     .setDescription('Check your profile and ranking');
 
-export function doProfile(interaction : any) {
+export function doProfile(interaction) {
     var author = interaction.member.user;
     var xp = players.get(author.id).xp;
     
@@ -40,11 +39,6 @@ export function doProfile(interaction : any) {
 
     bot.channels.fetch(interaction.channelId)
         .then(channel => {
-            if (channel instanceof TextChannel) {
-                channel.send({ embeds: [profileEmbed] });
-            }
-            else {
-                interaction.reply('An error has occured, please try again.');
-            }
+            channel.send({ embeds: [profileEmbed] });
         });
 }

@@ -16,7 +16,7 @@ export const fight = new SlashCommandBuilder()
                 option.setName('user')
                         .setDescription('Player to challenge')
                         .setRequired(true)
-                )
+            )
     )
     .addSubcommand(subcommand =>
         subcommand
