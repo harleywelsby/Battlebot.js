@@ -8,11 +8,13 @@ import { players } from './data/database.js';
 // Command imports
 import { signup, doSignup } from './commands/user/signup.js';
 import { checkMoves, doMoves } from './commands/user/moves.js';
+import { train, doTrain } from './commands/user/train.js';
 
 // Load commands
 const commands = [];
 commands.push(signup.toJSON());
 commands.push(checkMoves.toJSON());
+commands.push(train.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
@@ -60,6 +62,11 @@ bot.on('interactionCreate', interaction => {
 
     if (interaction.commandName === 'moves') {
         doMoves(interaction);
+        return;
+    }
+
+    if (interaction.commandName === 'train') {
+        doTrain(interaction);
         return;
     }
 });

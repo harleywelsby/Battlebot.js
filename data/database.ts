@@ -14,6 +14,12 @@ export type Player = {
     name: string;
     xp: number;
     effect: string;
-    movelist: Move[];
+    movelist: string[];
     lastmove: Move;
+}
+
+export type Training = {
+    name: string;
+    level: number;
+    startTime: number;
 }

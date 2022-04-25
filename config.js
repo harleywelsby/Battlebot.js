@@ -29,3 +29,7 @@ export const LEVEL_CAP = 30;
 export const MISS_CHANCE = 20;
 
 export const AUTOSAVE_TIME = (60000)*60;
+
+export const MIN_DAMAGE = 5;
+
+export const DAMAGE_MODIFIER = 0.7;
