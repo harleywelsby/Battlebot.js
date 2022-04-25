@@ -2,7 +2,7 @@
 
 import { bot } from '../../startup.js';
 import { players }from '../../data/database.js';
-import { SAVE_CHANNEL } from '../../config.js';
+import { SAVE_CHANNEL } from '../../data/storage/config.js';
 
 export function autosave() {
     var channel = bot.channels.cache.find(channel => channel.id === SAVE_CHANNEL);

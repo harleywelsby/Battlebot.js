@@ -1,6 +1,6 @@
 import { moves, players, Move } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../../config.js';
+import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../../data/storage/config.js';
 
 export const checkMoves = new SlashCommandBuilder()
     .setName('moves')

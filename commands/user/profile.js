@@ -1,8 +1,8 @@
 import { MessageEmbed } from "discord.js";
 import { players, ranks } from '../../data/database.js';
-import { getNameFromId } from "../../handlers.js";
+import { getNameFromId } from "../../data/handlers.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { EMBED_COLOUR } from "../../config.js";
+import { EMBED_COLOUR } from "../../data/storage/config.js";
 import { bot } from "../../startup.js";
 
 export const profile = new SlashCommandBuilder()

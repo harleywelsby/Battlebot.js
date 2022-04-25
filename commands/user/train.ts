@@ -1,6 +1,6 @@
 import { moves, activeTraining, players, Player, Move, Training } from '../../data/database.js';
-import { LEVEL_CAP } from '../../config.js';
-import { getTimeLeft, getTimeToTrain } from '../../handlers.js';
+import { LEVEL_CAP } from '../../data/storage/config.js';
+import { getTimeLeft, getTimeToTrain } from '../../data/handlers.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export const train = new SlashCommandBuilder()

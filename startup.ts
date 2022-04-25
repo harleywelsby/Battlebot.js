@@ -1,5 +1,5 @@
 import { Client, Intents, TextChannel } from 'discord.js';
-import { Token, LogChannel, ClientId, GuildId } from './tokens.js';
+import { Token, LogChannel, ClientId, GuildId } from './data/storage/tokens.js';
 import { LoadAllData } from './data/dataHandler.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';

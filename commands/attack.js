@@ -1,7 +1,7 @@
 import { activeFights, moves, players }from '../data/database.js';
-import { BOT_ID, MISS_CHANCE } from '../config.js';
+import { BOT_ID, MISS_CHANCE } from '../data/storage/config.js';
 import { getFightEmbed } from '../commands/fight.js';
-import { eloAdjustment, getNameFromId } from '../handlers.js';
+import { eloAdjustment, getNameFromId } from '../data/handlers.js';
 import { getMoveAccuracy, getMoveDamage } from '../commands/moves.js';
 import { doTurn } from './user/botfight.js';
 

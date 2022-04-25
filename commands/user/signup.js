@@ -1,5 +1,5 @@
 import { moves, players } from '../../data/database.js';
-import { getRandomInt } from '../../handlers.js';
+import { getRandomInt } from '../../data/handlers.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export const signup = new SlashCommandBuilder()

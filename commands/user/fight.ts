@@ -1,9 +1,9 @@
 import { players, activeFights, Fight, FightStage } from '../../data/database.js';
 import { MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { getNameFromId } from '../../handlers.js';
-import { EMBED_COLOUR } from '../../config.js';
-import { BOT_ID } from '../../deployConfig.js';
+import { getNameFromId } from '../../data/handlers.js';
+import { EMBED_COLOUR } from '../../data/storage/config.js';
+import { BOT_ID } from '../../data/storage/deployConfig.js';
 
 export const fight = new SlashCommandBuilder()
     .setName('fight')

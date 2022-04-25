@@ -1,10 +1,10 @@
 // Currently deprecated - Will be reimplemented after base features reworked TODO
 
 import { activeFights, moves, players }from '../../data/database.js';
-import { BOT_ID, MISS_CHANCE } from "../../config.js";
+import { BOT_ID, MISS_CHANCE } from "../../data/storage/config.js";
 import { getFightEmbed, initFightArena } from "./fight.js";
 import { getMoveAccuracy, getMoveDamage } from "./moves.js";
-import { getNameFromId, eloAdjustment } from "../../handlers.js";
+import { getNameFromId, eloAdjustment } from "../../data/handlers.js";
 
 export function botfight(msg) {
     msg.reply('You\'ve challenged the master, aye? Prepare for a beatdown!');

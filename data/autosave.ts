@@ -1,6 +1,6 @@
 import { TextChannel } from 'discord.js';
 import { bot } from '../startup.js';
-import { SaveChannel } from '../tokens.js';
+import { SaveChannel } from './storage/tokens.js';
 import { players } from './database.js';
 
 var lastSave : number = Date.now();
