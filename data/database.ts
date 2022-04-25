@@ -9,3 +9,11 @@ export type Move = {
     damage: number;
     level: number;
 }
+
+export type Player = {
+    name: string;
+    xp: number;
+    effect: string;
+    movelist: Move[];
+    lastmove: Move;
+}

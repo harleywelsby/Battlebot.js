@@ -1,5 +1,5 @@
 import { moves, players } from '../data/database.js';
-import { sortList, getRandomInt } from '../handlers.js';
+import { getRandomInt } from '../handlers.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export const signup = new SlashCommandBuilder()
@@ -15,15 +15,11 @@ export async function doSignup(interaction) {
     }
     else {
         //Sort the moves by type
-        var punchlist = [];
-        var kicklist = [];
-        var grapplelist = [];
-        sortList(moves, punchlist, 'Punch');
-        sortList(moves, kicklist, 'Kick');
-        sortList(moves, grapplelist, 'Grapple');
+        var valueArray = Array.from(moves.values());
+        var punchlist = valueArray.filter(move => move.type === 'punch');
+        var kicklist = valueArray.filter(move => move.type === 'kick');
+        var grapplelist = valueArray.filter(move => move.type === 'grapple');
 
-
-        // TODO: Moves not initializing correctly
         //Distribute 3 at random
         var playermoves = [];
         playermoves.push(3 + ' ' + punchlist[getRandomInt(punchlist.length)].name);

@@ -1,14 +1,5 @@
-import { moves, players } from './data/database.js';
+import { players } from './data/database.js';
 import { bot } from './startup.js';
-
-//Sort moves by move type
-export function sortList(from, to, type) {
-    for(const [key, value] of from.entries()) {
-        if(value.type === type) {
-            to.push(moves.get(key));
-        }
-    }
-}
 
 //Get a random number for move draw
 export function getRandomInt(max) {
