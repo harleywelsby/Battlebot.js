@@ -1,4 +1,4 @@
-import { moves, players } from '../../data/database.js';
+import { moves, MoveType, players } from '../../data/database.js';
 import { getRandomInt } from '../../data/handlers.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
@@ -16,9 +16,9 @@ export async function doSignup(interaction) {
     else {
         //Sort the moves by type
         var valueArray = Array.from(moves.values());
-        var punchlist = valueArray.filter(move => move.type === 'punch');
-        var kicklist = valueArray.filter(move => move.type === 'kick');
-        var grapplelist = valueArray.filter(move => move.type === 'grapple');
+        var punchlist = valueArray.filter(move => move.type === MoveType.Punch);
+        var kicklist = valueArray.filter(move => move.type === MoveType.Kick);
+        var grapplelist = valueArray.filter(move => move.type === MoveType.Grapple);
 
         //Distribute 3 at random
         var playermoves = [];

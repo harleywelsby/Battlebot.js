@@ -1,4 +1,4 @@
-import { activeFights, moves, players, Fight, FightStage, Move } from '../../data/database.js';
+import { activeFights, moves, players, Fight, FightStage, Move, MoveType } from '../../data/database.js';
 import { getFightEmbed, getPlayerMove, isValidMove } from '../../utils/fightUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { User } from 'discord.js';
@@ -42,15 +42,15 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
 
     // Calculate type bonuses
     if (fight.lastTurn) {
-        var lastType = fight.lastTurn.type.toLowerCase();
-        var type = move.type.toLowerCase();
+        var lastType = fight.lastTurn.type;
+        var type = move.type;
 
         switch (type) {
-            case 'kick':
+            case MoveType.Kick:
                 break;
-            case 'punch':
+            case MoveType.Punch:
                 break;
-            case 'grapple':
+            case MoveType.Grapple:
                 break;
             default:
                 interaction.reply('An error has occured, please try again');

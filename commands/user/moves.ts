@@ -1,4 +1,4 @@
-import { moves, players, Move } from '../../data/database.js';
+import { moves, players, Move, MoveType } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { getMoveAccuracy, getMoveDamage, getMoveString } from '../../utils/moveUtils.js';
 
@@ -44,9 +44,9 @@ function getMovesAll(interaction : any) {
 
     // Sort moves by type
     var valueArray = Array.from(moves.values());
-    var punchlist : Move[] = valueArray.filter(move => move.type === 'punch');
-    var kicklist : Move[] = valueArray.filter(move => move.type === 'kick');
-    var grapplelist : Move[] = valueArray.filter(move => move.type === 'grapple');
+    var punchlist : Move[] = valueArray.filter(move => move.type === MoveType.Punch);
+    var kicklist : Move[] = valueArray.filter(move => move.type === MoveType.Kick);
+    var grapplelist : Move[] = valueArray.filter(move => move.type === MoveType.Grapple);
 
     toSend += '\nPunches:\n';
     for (let i = 0; i < punchlist.length; i++) {

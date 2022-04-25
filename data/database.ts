@@ -6,7 +6,7 @@ export var ranks = new Map();
 
 export type Move = {
     name: string;
-    type: string;
+    type: MoveType;
     damage: number;
     level: number;
 }
@@ -38,6 +38,12 @@ export type Fight = {
 export enum FightStage {
     Lobby = 1,
     Fight
+}
+
+export enum MoveType {
+    Punch = 1,
+    Kick,
+    Grapple
 }
 
 export type Rank = {

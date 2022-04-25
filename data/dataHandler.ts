@@ -1,4 +1,4 @@
-import { moves, Move, Rank, ranks } from './database.js';
+import { moves, Move, Rank, ranks, MoveType } from './database.js';
 import { getLastAutosave, setLastSave } from './autosave.js';
 
 // JSON import stuff, see here:
@@ -21,13 +21,24 @@ function constructMoveData() {
     for(let i = 0; i < movedata.length; i++) {
         var move : Move = {
             name: movedata[i]["name"].toLowerCase(),
-            type: movedata[i]["type"].toLowerCase(),
+            type: parseMoveType(movedata[i]["type"].toLowerCase()),
             damage: movedata[i]["damage"],
             level: movedata[i]["level"]
         }
         moves.set(move.name.toLowerCase(), move);
     }
     console.log('Moves initialized!');
+}
+
+function parseMoveType(typeString : string) : MoveType {
+    switch (typeString) {
+        case 'punch':
+            return MoveType.Punch;
+        case 'kick':
+            return MoveType.Kick;
+        case 'grapple':
+            return MoveType.Grapple;
+    }
 }
 
 function constructRankData() {
