@@ -1,6 +1,5 @@
 import { moves, Move } from './database.js';
 import { getLastAutosave, setLastSave } from './autosave.js';
-import { readFile } from 'fs/promises';
 
 // JSON import stuff, see here:
 // https://stackoverflow.com/questions/60205891/import-json-extension-in-es6-node-js-throws-an-error
@@ -16,17 +15,16 @@ export function LoadAllData() {
 }
 
 function constructMoveData() {
-    var movedata = require('./storage/moves.json');
-    console.log(movedata);
-    /*for(let i = 0; i < data.length; i++){
+    var movejson : JSON = require('./storage/moves.json');
+    var movedata = movejson["moves"];
+    for(let i = 0; i < movedata.length; i++){
         var move : Move = {
-            name: data[i][0],
-            type: data[i][1],
-            damage: parseInt(data[i][2]),
-            level: parseInt(data[i][3])
+            name: movedata[i]["name"],
+            type: movedata[i]["type"],
+            damage: movedata[i]["damage"],
+            level: movedata[i]["level"]
         }
         moves.set(move.name.toLowerCase(), move);
-        console.log(move);
-    }*/
+    }
     console.log('Moves initialized!');
 }
