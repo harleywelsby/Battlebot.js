@@ -33,3 +33,5 @@ export const AUTOSAVE_TIME = (60000)*60;
 export const MIN_DAMAGE = 5;
 
 export const DAMAGE_MODIFIER = 0.7;
+
+export const EMBED_COLOUR = '#9145B6';

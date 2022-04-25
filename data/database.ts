@@ -23,3 +23,18 @@ export type Training = {
     level: number;
     startTime: number;
 }
+
+export type Fight = {
+    player1: string;
+    player2: string;
+    p1hp: number;
+    p2hp: number;
+    turn: string;
+    stage: FightStage;
+    lastTurn: Move;
+}
+
+export enum FightStage {
+    Lobby = 1,
+    Fight
+}
