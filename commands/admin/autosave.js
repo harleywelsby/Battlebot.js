@@ -1,3 +1,5 @@
+// Work in progress as a slash command TODO
+
 import { bot } from '../../startup.js';
 import { players }from '../../data/database.js';
 import { SAVE_CHANNEL } from '../../config.js';

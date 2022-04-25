@@ -9,16 +9,16 @@ import { getTimeToTrain } from './handlers.js';
 
 //Commands
 import { getMoves } from './commands/moves.js';
-import { doSignup } from './commands/signup.js';
+import { doSignup } from './commands/user/signup.js';
 import { doTrain } from './commands/train.js';
 import { doFightLobby } from './commands/fight.js';
 import { doMoveLogic } from './commands/attack.js';
 import { doProfile } from './commands/profile.js';
 
 //Admin
-import { doFinTrain } from './admin/finishTraining.js';
-import { doAdjust } from './admin/adjust.js';
-import { autosave } from './admin/autosave.js';
+import { doFinTrain } from './commands/admin/finishTraining.js';
+import { doAdjust } from './commands/admin/adjust.js';
+import { autosave } from './commands/admin/autosave.js';
 
 //On message check
 bot.on('messageCreate', msg => {

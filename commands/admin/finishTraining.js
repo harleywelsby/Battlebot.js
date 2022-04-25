@@ -1,3 +1,5 @@
+// Work in progress as a slash command TODO
+
 import { activeTraining, players }from '../../data/database.js';
 
 //Force-finish all current training
