@@ -50,6 +50,7 @@ function getMovesMine(interaction : any) {
 
     for (let i = 0; i < playerEntry.movelist.length; i++) {
         var move : Move = moves.get(playerEntry.movelist[i].split(' ')[1]);
+        move.level = playerEntry.movelist[i].split(' ')[0];
         toSend += `L.${playerEntry.movelist[i]} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
     }
 

@@ -19,8 +19,8 @@ function constructMoveData() {
     var movedata = movejson["moves"];
     for(let i = 0; i < movedata.length; i++){
         var move : Move = {
-            name: movedata[i]["name"],
-            type: movedata[i]["type"],
+            name: movedata[i]["name"].toLowerCase(),
+            type: movedata[i]["type"].toLowerCase(),
             damage: movedata[i]["damage"],
             level: movedata[i]["level"]
         }
