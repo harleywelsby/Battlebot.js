@@ -5,3 +5,4 @@ tokens.ts
 tscompile
 moves.json
 ranks.json
+data/storage/

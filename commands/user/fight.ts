@@ -1,9 +1,7 @@
 import { players, activeFights, Fight, FightStage } from '../../data/database.js';
-import { MessageEmbed } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { getNameFromId } from '../../data/handlers.js';
-import { EMBED_COLOUR } from '../../data/storage/config.js';
 import { BOT_ID } from '../../data/storage/deployConfig.js';
+import { getFightEmbed } from '../../utils/fightUtils.js';
 
 export const fight = new SlashCommandBuilder()
     .setName('fight')
@@ -123,24 +121,4 @@ function cancelFight(interaction : any) {
     }
 
     interaction.reply('You\'re not in an active fight!');
-}
-
-// Get fight display
-function getFightEmbed(fight : Fight, move : string) : MessageEmbed {
-    var moveDescription = (move === null) 
-        ? `The fight has begun! it is ${getNameFromId(fight.player1)}\'s first move!`
-        : move;
-    var player1 = getNameFromId(fight.player1);
-    var player2 = getNameFromId(fight.player2);
-
-    const fightEmbed = new MessageEmbed()
-        .setColor(EMBED_COLOUR)
-        .setTitle(`${player1} vs ${player2}`)
-        .setDescription(moveDescription)
-        .addFields(
-            { name: player1, value: `HP: ${fight.p1hp}`, inline: true },
-            { name: player2, value: `HP: ${fight.p2hp}`, inline: true }
-        );
-    
-    return fightEmbed;
 }

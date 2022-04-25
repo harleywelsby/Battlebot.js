@@ -11,6 +11,7 @@ import { checkMoves, doMoves } from './commands/user/moves.js';
 import { train, doTrain } from './commands/user/train.js';
 import { fight, doFight } from './commands/user/fight.js';
 import { profile, doProfile } from './commands/user/profile.js';
+import { attack, doAttack } from './commands/user/attack.js';
 
 // Load commands
 const commands = [];
@@ -19,6 +20,7 @@ commands.push(checkMoves.toJSON());
 commands.push(train.toJSON());
 commands.push(fight.toJSON());
 commands.push(profile.toJSON());
+commands.push(attack.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
@@ -75,6 +77,9 @@ bot.on('interactionCreate', interaction => {
             break;
         case 'profile':
             doProfile(interaction);
+            break;
+        case 'attack':
+            doAttack(interaction);
             break;
         default:
             interaction.reply('An error has occured, please try again.');

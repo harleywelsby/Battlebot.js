@@ -1,5 +1,5 @@
-import { players } from './database.js';
-import { bot } from '../startup.js';
+//import { players } from './database.js';
+//import { bot } from '../startup.js';
 
 //Get a random number for move draw
 export function getRandomInt(max) {
@@ -19,12 +19,8 @@ export function getTimeLeft(move) {
     return trainTime - sofar;
 }
 
-//Get player name from ID
-export function getNameFromId(id) {
-    return bot.users.cache.find(user => user.id === id).username;
-}
-
-export function eloAdjustment(isWinner, winner, loser) {
+// TODO: Should be moved to fightUtils
+/*export function eloAdjustment(isWinner, winner, loser) {
     winner = players.get(winner);
     loser = players.get(loser);
 
@@ -56,4 +52,4 @@ export function eloAdjustment(isWinner, winner, loser) {
         }
         return adjustment;
     }
-}
+}*/
