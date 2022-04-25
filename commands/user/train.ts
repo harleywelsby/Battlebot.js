@@ -23,15 +23,15 @@ export function doTrain(interaction : any) {
         return;
     }
 
+    var player : Player = players.get(author.id);
+    var moveName : string = interaction.options.getString('move').toLowerCase();
+    var selectedMove : Move = undefined;
+
     // Check move exists
     if (!moves.has(moveName)) {
         interaction.reply('That move doesn\'t exist!');
         return;
     }
-
-    var player : Player = players.get(author.id);
-    var moveName : string = interaction.options.getString('move').toLowerCase();
-    var selectedMove : Move = undefined;
 
     for (let i = 0; i < player.movelist.length; i++) {
         var playerMove = player.movelist[i].split(' ')[1].toLowerCase();
