@@ -12,6 +12,18 @@ export const checkMoves = new SlashCommandBuilder()
               .addChoice('All', 'all')
     );
 
+export function doMoves(interaction : any) {
+    if (interaction.options.getString('moveset') === 'mine') {
+        getMovesMine(interaction);
+        return;
+    }
+
+    if (interaction.options.getString('moveset') === 'all') {
+        getMovesAll(interaction);
+        return;
+    }
+}
+
 // Calculate move accuracy
 function getMoveAccuracy(move : Move) : number {
     var miss : number = move.level;
@@ -26,13 +38,46 @@ function getMoveDamage(move : Move) : number {
     return toHit > 5 ? toHit : 5; // TODO: Config values for max level, min dmg
 }
 
-export function doMoves(interaction : any) {
+function getMoveString(move : Move) : string {
+    return `${move.name} \t | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
+}
+
+function getMovesMine(interaction : any) {
     var author = interaction.member.user;
+    var playerEntry = players.get(author.id);
+    var toSend : string = 'Your moves are:\n';
 
-    if (interaction.options.getString('moveset') === 'mine') {
-        
+    for (let i = 0; i < playerEntry.movelist.length; i++) {
+        var move : Move = moves.get(playerEntry.movelist[i].split(' ')[1]);
+        toSend += `L.${playerEntry.movelist[i]} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
     }
-    else if (interaction.options.getString('moveset') === 'all') {
 
+    interaction.reply(toSend);
+}
+
+function getMovesAll(interaction : any) {
+    var toSend = 'Here\'s a list of all moves:\n';
+
+    // Sort moves by type
+    var valueArray = Array.from(moves.values());
+    var punchlist : Move[] = valueArray.filter(move => move.type === 'punch');
+    var kicklist : Move[] = valueArray.filter(move => move.type === 'kick');
+    var grapplelist : Move[] = valueArray.filter(move => move.type === 'grapple');
+
+    toSend += '\nPunches:\n';
+    for (let i = 0; i < punchlist.length; i++) {
+        toSend += getMoveString(punchlist[i]);
     }
+
+    toSend += '\nKicks:\n';
+    for (let i = 0; i < kicklist.length; i++) {
+        toSend += getMoveString(kicklist[i]);
+    }
+
+    toSend += '\nGrapples:\n';
+    for (let i = 0; i < grapplelist.length; i++) {
+        toSend += getMoveString(grapplelist[i]);
+    }
+
+    interaction.reply(toSend);
 }

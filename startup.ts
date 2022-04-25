@@ -53,7 +53,7 @@ bot.on('interactionCreate', interaction => {
         return;
     }
 
-    if (!players.has(interaction.member.user)) {
+    if (!players.has(interaction.member.user.id)) {
         interaction.reply('You need to sign up first! Use /signup!');
         return;
     }
