@@ -1,4 +1,4 @@
-import { moves, Move } from './database.js';
+import { moves, Move, Rank, ranks } from './database.js';
 import { getLastAutosave, setLastSave } from './autosave.js';
 
 // JSON import stuff, see here:
@@ -9,6 +9,7 @@ const require = createRequire(import.meta.url);
 //Load data
 export function LoadAllData() {
     constructMoveData();
+    constructRankData();
     getLastAutosave();
     setLastSave()
     console.log('Players initialized!');
@@ -17,7 +18,7 @@ export function LoadAllData() {
 function constructMoveData() {
     var movejson : JSON = require('./storage/moves.json');
     var movedata = movejson["moves"];
-    for(let i = 0; i < movedata.length; i++){
+    for(let i = 0; i < movedata.length; i++) {
         var move : Move = {
             name: movedata[i]["name"].toLowerCase(),
             type: movedata[i]["type"].toLowerCase(),
@@ -27,4 +28,18 @@ function constructMoveData() {
         moves.set(move.name.toLowerCase(), move);
     }
     console.log('Moves initialized!');
+}
+
+function constructRankData() {
+    var rankjson : JSON = require('./storage/ranks.json');
+    var rankdata = rankjson["ranks"];
+    for (let i = 0; i < rankdata.length; i++) {
+        var rank : Rank = {
+            name: rankdata[i]["name"].toLowerCase(),
+            start: rankdata[i]["start"],
+            end: rankdata[i]["end"],
+            pic: rankdata[i]["pic"]
+        }
+        ranks.set(`${rank.start} ${rank.end}`, rank);
+    }
 }
