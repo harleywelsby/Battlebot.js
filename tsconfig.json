@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "esnext", 
+    "outDir": "./tscompile",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+  }
+}
