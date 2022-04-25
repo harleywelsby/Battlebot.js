@@ -9,12 +9,14 @@ import { players } from './data/database.js';
 import { signup, doSignup } from './commands/user/signup.js';
 import { checkMoves, doMoves } from './commands/user/moves.js';
 import { train, doTrain } from './commands/user/train.js';
+import { fight, doFight } from './commands/user/fight.js';
 
 // Load commands
 const commands = [];
 commands.push(signup.toJSON());
 commands.push(checkMoves.toJSON());
 commands.push(train.toJSON());
+commands.push(fight.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
@@ -49,25 +51,28 @@ bot.on('ready', () => {
 bot.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) return;
 
-    // Allow anyone to use signup
-    if (interaction.commandName === 'signup') {
-        doSignup(interaction);
-        return;
-    }
-
-    if (!players.has(interaction.member.user.id)) {
+    // Check that the user has signed up
+    if (!players.has(interaction.member.user.id)
+        && interaction.commandName != 'signup') {
         interaction.reply('You need to sign up first! Use /signup!');
         return;
     }
 
-    if (interaction.commandName === 'moves') {
-        doMoves(interaction);
-        return;
-    }
-
-    if (interaction.commandName === 'train') {
-        doTrain(interaction);
-        return;
+    switch (interaction.commandName) {
+        case 'signup':
+            doSignup(interaction);
+            break;
+        case 'moves':
+            doMoves(interaction);
+            break;
+        case 'train':
+            doTrain(interaction);
+            break;
+        case 'fight':
+            doFight(interaction);
+            break;
+        default:
+            interaction.reply('An error has occured, please try again.');
     }
 });
 
