@@ -1,6 +1,6 @@
 import { moves, players, Move } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../../data/storage/config.js';
+import { getMoveAccuracy, getMoveDamage, getMoveString } from '../../utils/moveUtils.js';
 
 export const checkMoves = new SlashCommandBuilder()
     .setName('moves')
@@ -23,24 +23,6 @@ export function doMoves(interaction : any) {
         getMovesAll(interaction);
         return;
     }
-}
-
-// Calculate move accuracy
-function getMoveAccuracy(move : Move) : number {
-    var miss : number = move.level;
-    miss -= LEVEL_CAP - (move.level);
-    miss -= move.damage * (-move.level / MIN_DAMAGE);
-    return miss;
-}
-
-// Calculate move damage with modifiers
-function getMoveDamage(move : Move) : number {
-    var toHit : number = move.damage + (move.level * DAMAGE_MODIFIER);
-    return toHit > MIN_DAMAGE ? toHit : MIN_DAMAGE;
-}
-
-function getMoveString(move : Move) : string {
-    return `${move.name} \t | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
 }
 
 function getMovesMine(interaction : any) {

@@ -24,16 +24,7 @@ export function getFightEmbed(fight, move) {
 }
 
 // Check if this move is valid (When an attack command has been passed)
-export function isValidMove(interaction) {
-    var author = interaction.member.user;
-
-    var fight = undefined;
-    activeFights.forEach((v,k) => {
-        if (k.includes(author.id) && v.stage == FightStage.Fight) {
-            fight = v;
-            return;
-        }
-    });
+export function isValidMove(author, fight, move) {
 
     // Player isn't in an active fight
     if (fight === undefined) {
@@ -46,21 +37,25 @@ export function isValidMove(interaction) {
         interaction.reply('It\'s not your turn!');
         return false;
     }
-    
+
     // Player is trying to use a move they don't have
-    var move = interaction.options.getString('move');
-    var playerEntry = players.get(author.id);
-    var playerHasMove = false;
-    playerEntry.movelist.forEach(playerMove => {
-        if (playerMove.split(' ')[1] === move) {
-            playerHasMove = true;
-            return;
-        }
-    });
-    if (!playerHasMove) {
+    if (!getPlayerMove(author, move)) {
         interaction.reply('You don\'t have that move!');
         return false;
     }
 
     return true;
+}
+// Check if player has given move
+export function getPlayerMove(author, move) {
+    var playerEntry = players.get(author.id);
+    var playerHasMove = undefined;
+    playerEntry.movelist.forEach(playerMove => {
+        if (playerMove.split(' ')[1] === move) {
+            playerHasMove = playerMove;
+            return;
+        }
+    });
+
+    return playerHasMove;
 }
