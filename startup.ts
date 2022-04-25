@@ -3,13 +3,16 @@ import { Token, LogChannel, ClientId, GuildId } from './tokens.js';
 import { LoadAllData } from './data/dataHandler.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
+import { players } from './data/database.js';
 
 // Command imports
 import { signup, doSignup } from './commands/user/signup.js';
+import { checkMoves, doMoves } from './commands/user/moves.js';
 
 // Load commands
 const commands = [];
 commands.push(signup.toJSON());
+commands.push(checkMoves.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
@@ -44,8 +47,20 @@ bot.on('ready', () => {
 bot.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) return;
 
+    // Allow anyone to use signup
     if (interaction.commandName === 'signup') {
         doSignup(interaction);
+        return;
+    }
+
+    if (!players.has(interaction.member.user)) {
+        interaction.reply('You need to sign up first! Use /signup!');
+        return;
+    }
+
+    if (interaction.commandName === 'moves') {
+        doMoves(interaction);
+        return;
     }
 });
 
