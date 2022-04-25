@@ -1,3 +1,5 @@
+// DEPRECATED: Now using ./commands/user/attack.ts for /attack implementation
+
 import { activeFights, moves, players }from '../data/database.js';
 import { BOT_ID, MISS_CHANCE } from '../data/storage/config.js';
 import { getFightEmbed } from '../commands/fight.js';
