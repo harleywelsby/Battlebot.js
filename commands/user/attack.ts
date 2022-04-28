@@ -112,6 +112,12 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
     }
     moveDescription += `\nIt is now ${getNameFromId(opponent.name)}\'s turn!\n`;
 
+    // Set turn vars
+    fight.turn = (fight.player1 === author.id) ? fight.player2 : fight.player1;
+    fight.lastTurn = move;
+
+    // TODO: Check for player defeat
+
     // Execute embed
     var embed = getFightEmbed(fight, moveDescription);
     bot.channels.fetch(interaction.channelId)
