@@ -5,7 +5,7 @@ import { TextChannel, User } from 'discord.js';
 import { getMoveAccuracy, getMoveDamage } from '../../utils/moveUtils.js';
 import { MISS_CHANCE } from '../../data/storage/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
-import { bot } from '../../startup.js';
+import { bot, DiscordLogChannel } from '../../startup.js';
 
 export const attack = new SlashCommandBuilder()
     .setName('a')
@@ -79,6 +79,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                     break;
                 default:
                     interaction.reply('An error has occured, please try again');
+                    DiscordLogChannel.send(`Attack failed: Move type could not be found for user ${author.id}`);
                     return;
             }
         }
@@ -119,7 +120,8 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                 channel.send({ embeds: [embed] });
             }
             else {
-                interaction.reply('An error has occured, please try again.');
+                interaction.reply(`An error has occured, please try again.`);
+                DiscordLogChannel.send(`Attack failed: Failed to get embed for user ${author.id}`);
             }
         });
 }

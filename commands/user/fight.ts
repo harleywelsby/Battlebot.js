@@ -2,6 +2,8 @@ import { players, activeFights, Fight, FightStage } from '../../data/database.js
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { BOT_ID } from '../../data/storage/deployConfig.js';
 import { getFightEmbed } from '../../utils/fightUtils.js';
+import { bot } from '../../startup.js';
+import { TextChannel } from 'discord.js';
 
 export const fight = new SlashCommandBuilder()
     .setName('fight')
@@ -88,20 +90,32 @@ function acceptFight(interaction : any) {
     
     var found = false;
     activeFights.forEach((v,k) => {
-        if (k.includes(`vs${author}`) && v.stage === FightStage.Lobby) {
+        if (k.includes(`vs${author.id}`) && v.stage === FightStage.Lobby) {
             v.stage = FightStage.Fight;
             found = true;
-            interaction.reply(`<@${author.id}> has accepted <@${v.player2}\'s fight! Initializing the arena...`);
+            interaction.reply(`<@${author.id}> has accepted <@${v.player2}>\'s fight! Initializing the arena...`);
             initFightArena(interaction, v);
             return;
         }
     });
+
+    if (!found) {
+        interaction.reply('You haven\'t been challenged to a fight!');
+    }
 }
 
 //Initialize the arena
 function initFightArena(interaction : any, fight : Fight) {
     var embed = getFightEmbed(fight, null);
-    interaction.reply({ embeds: [embed] });
+    bot.channels.fetch(interaction.channelId)
+        .then(channel => {
+            if (channel instanceof TextChannel) {
+                channel.send({ embeds: [embed] });
+            }
+            else {
+                interaction.reply('An error has occured, please try again.');
+            }
+        });
 }
 
 // Cancel a fight challenge

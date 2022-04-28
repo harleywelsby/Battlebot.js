@@ -1,6 +1,6 @@
 import { EMBED_COLOUR } from '../../data/storage/config.js';
 import { getNameFromId } from './playerUtils.js';
-import { players, activeFights } from '../data/database.js';
+import { players } from '../data/database.js';
 import { MessageEmbed } from 'discord.js';
 
 // Get fight display

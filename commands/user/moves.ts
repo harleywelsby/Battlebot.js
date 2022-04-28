@@ -1,6 +1,7 @@
 import { moves, players, Move, MoveType } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { getMoveAccuracy, getMoveDamage, getMoveString } from '../../utils/moveUtils.js';
+import { DiscordLogChannel } from '../../startup.js';
 
 export const checkMoves = new SlashCommandBuilder()
     .setName('moves')
@@ -31,8 +32,11 @@ function getMovesMine(interaction : any) {
     var toSend : string = 'Your moves are:\n';
 
     for (let i = 0; i < playerEntry.movelist.length; i++) {
-        var move : Move = moves.get(playerEntry.movelist[i].split(' ')[1]);
-        move.level = playerEntry.movelist[i].split(' ')[0];
+        var move : Move = moves.get(playerEntry.movelist[i].split(' ')[1].toLowerCase());
+        if (move === null) {
+            DiscordLogChannel.send(`Moves for player ${author.id} displayed incorrrectly at ${i}: Invalid move`);
+        }
+        move.level = parseInt(playerEntry.movelist[i].split(' ')[0]);
         toSend += `L.${playerEntry.movelist[i]} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
     }
 

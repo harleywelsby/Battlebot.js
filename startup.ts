@@ -40,6 +40,7 @@ const rest = new REST({ version: '9' }).setToken(Token());
 
 //Init the bot
 export const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+export var DiscordLogChannel : TextChannel = undefined;
 
 //Login
 bot.on('ready', () => {
@@ -47,7 +48,8 @@ bot.on('ready', () => {
     bot.user?.setActivity('everything WORK', { type: 'WATCHING' });
     var channel = bot.channels.cache.find(channel => channel.id === LogChannel);
     if (channel != undefined && channel instanceof TextChannel) {
-        channel.send(`Rebooted and logged in`);
+        DiscordLogChannel = channel;
+        DiscordLogChannel.send(`Rebooted and logged in`);
     }
     LoadAllData();
 });
