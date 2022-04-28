@@ -8,7 +8,7 @@ import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
 
 export const attack = new SlashCommandBuilder()
-    .setName('a')
+    .setName('attack')
     .setDescription('Attack another player during a fight')
     .addStringOption(option => option.setName('move').setDescription('The move you want to play'));
 
@@ -25,7 +25,7 @@ export function doAttack(interaction : any) {
     });
     
     // Check move is possible
-    if (!isValidMove(author, fight, moveString)) {
+    if (!isValidMove(interaction, author, fight, moveString)) {
         return;
     }
 

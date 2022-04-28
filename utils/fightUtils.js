@@ -24,7 +24,7 @@ export function getFightEmbed(fight, move) {
 }
 
 // Check if this move is valid (When an attack command has been passed)
-export function isValidMove(author, fight, move) {
+export function isValidMove(interaction, author, fight, move) {
 
     // Player isn't in an active fight
     if (fight === undefined) {
@@ -51,7 +51,7 @@ export function getPlayerMove(author, move) {
     var playerEntry = players.get(author.id);
     var playerHasMove = undefined;
     playerEntry.movelist.forEach(playerMove => {
-        if (playerMove.split(' ')[1] === move) {
+        if (playerMove.split(' ')[1].toLowerCase() === move) {
             playerHasMove = playerMove;
             return;
         }
