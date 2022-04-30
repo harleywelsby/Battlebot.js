@@ -1,3 +1,9 @@
+// =============================================================
+// || BattleBot.js v3.0                                       ||
+// =============================================================
+// || AUTHOR: Harley Welsby, https://github.com/harleywelsby  ||
+// =============================================================
+
 import { Client, Intents, TextChannel } from 'discord.js';
 import { Token, LogChannel, ClientId, GuildId } from './data/storage/tokens.js';
 import { LoadAllData } from './data/dataHandler.js';
@@ -8,7 +14,7 @@ import { players } from './data/database.js';
 // Command imports
 import { signup, doSignup } from './commands/user/signup.js';
 import { checkMoves, doMoves } from './commands/user/moves.js';
-import { train, doTrain } from './commands/user/train.js';
+import { train, doTrain, checkTraining } from './commands/user/train.js';
 import { fight, doFight } from './commands/user/fight.js';
 import { profile, doProfile } from './commands/user/profile.js';
 import { attack, doAttack } from './commands/user/attack.js';
@@ -56,6 +62,8 @@ bot.on('ready', () => {
 
 bot.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) return;
+
+    checkTraining(interaction);
 
     // Check that the user has signed up
     if (!players.has(interaction.member.user.id)

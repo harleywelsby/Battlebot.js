@@ -35,7 +35,7 @@ export function moveStringToEnum(typeString : string) : MoveType {
 
 //Calculate time training should take
 export function getTimeToTrain(move : Training) {
-    return (move.level / 5) * 15;
+    return 1 //(move.level / 5) * 15;
 }
 
 //Calculate how much time is left on active training in seconds

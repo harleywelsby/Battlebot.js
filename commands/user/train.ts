@@ -2,6 +2,8 @@ import { moves, activeTraining, players, Player, Move, Training } from '../../da
 import { LEVEL_CAP } from '../../data/storage/config.js';
 import { getTimeLeft, getTimeToTrain } from '../../utils/moveUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
+import { bot, DiscordLogChannel } from '../../startup.js';
+import { TextChannel } from 'discord.js';
 
 export const train = new SlashCommandBuilder()
     .setName('train')
@@ -68,5 +70,36 @@ export function doTrain(interaction : any) {
         level: 1,
         startTime: Date.now()
     }
+    activeTraining.set(author.id, training);
     interaction.reply(`Training ${training.name} to level 1... This may take a while... (${getTimeToTrain(training)} mins)`);
+}
+
+export function checkTraining(interaction : any) {
+    bot.channels.fetch(interaction.channelId)
+        .then(channel => {
+            if (channel instanceof TextChannel) {
+                var toRemoveKeys = [];
+                activeTraining.forEach((v,k) => {
+                    if ((Date.now()) - (getTimeToTrain(v) * 60000) >= v.startTime) {
+                        channel.send(`<@${k}> your ${v.name} has reached level ${v.level}!`);
+
+                        var found = false;
+                        players.get(k).movelist.forEach((moveString : string) => {
+                            if (moveString.split(' ')[1].toLowerCase() === v.name.toLowerCase()) {
+                                found = true;
+                                moveString = `${v.level} ${v.name}`;
+                                return;
+                            }
+                        });
+
+                        if (!found) {
+                            players.get(k).movelist.push(`${v.level} ${v.name}`);
+                        }
+
+                        toRemoveKeys.push(k);
+                    }
+                });
+                toRemoveKeys.forEach(key => activeTraining.delete(key));
+            }
+        });
 }
