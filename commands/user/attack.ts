@@ -1,5 +1,5 @@
 import { activeFights, moves, players, Fight, FightStage, Move, MoveType, Player } from '../../data/database.js';
-import { getFightEmbed, getPlayerMove, isValidMove } from '../../utils/fightUtils.js';
+import { eloAdjustment, getFightEmbed, getPlayerMove, isValidMove } from '../../utils/fightUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { TextChannel, User } from 'discord.js';
 import { getMoveAccuracy, getMoveDamage } from '../../utils/moveUtils.js';
@@ -105,18 +105,17 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
     // Get embed description
     var moveDescription = undefined;
     if (miss > MISS_CHANCE) {
-        moveDescription = `POW! ${getNameFromId(author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} (${move.type}) for ${toHit}hp!\n`
+        moveDescription = `POW! ${getNameFromId(author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} for ${toHit}hp!\n`
     }
     else {
-        moveDescription = `WOOSH! ${getNameFromId(author.id)} missed their ${move.name} (${move.type})! No damage has been taken!\n`
+        moveDescription = `WOOSH! ${getNameFromId(author.id)} missed their ${move.name}! No damage has been taken!\n`
     }
     moveDescription += `\nIt is now ${getNameFromId(opponent.name)}\'s turn!\n`;
 
     // Set turn vars
     fight.turn = (fight.player1 === author.id) ? fight.player2 : fight.player1;
     fight.lastTurn = move;
-
-    // TODO: Check for player defeat
+    players.get(author.id).lastmove = move;
 
     // Execute embed
     var embed = getFightEmbed(fight, moveDescription);
@@ -124,12 +123,48 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         .then(channel => {
             if (channel instanceof TextChannel) {
                 channel.send({ embeds: [embed] });
+
+                // Check for player defeat
+                if (fight.p1hp <= 0 || fight.p2hp <= 0) {
+                    gameOver(channel, fight);
+                }
             }
             else {
                 interaction.reply(`An error has occured, please try again.`);
                 DiscordLogChannel.send(`Attack failed: Failed to get embed for user ${author.id}`);
             }
         });
+    // This stops "Application did not respond" messages
+    interaction.reply('🥊');
+}
+
+function gameOver(channel : TextChannel, fight : Fight) {
+    let winner = undefined;
+    let loser = undefined;
+    if (fight.p1hp <= 0) {
+        winner = fight.player2;
+        loser = fight.player1;
+    }
+    else {
+        winner = fight.player1;
+        loser = fight.player2;
+    }
+
+    channel.send(`KO! ${getNameFromId(winner)} destroyed ${getNameFromId(loser)}!`);
+    players.get(winner).lastmove = null;
+    players.get(loser).lastmove = null;
+    players.get(winner).effect = null;
+    players.get(loser).effect = null;
+
+    // Adjust elo
+    var eloChange : number[] = eloAdjustment(winner, loser);
+    players.get(winner).xp += eloChange[0];
+    players.get(loser).xp += eloChange[1];
+
+    channel.send(`<@${winner}> gained ${eloChange[0]} rank xp!`);
+    channel.send(`<@${loser}> lost ${eloChange[1]} rank xp!`);
+
+    activeFights.delete(`${fight.player2}vs${fight.player1}`);
 }
 
 //Get highest level move

@@ -59,3 +59,19 @@ export function getPlayerMove(author, move) {
 
     return playerHasMove;
 }
+
+// Return player elo adjustments after a round
+export function eloAdjustment(winner, loser) {
+    winner = players.get(winner);
+    loser = players.get(loser);
+
+    var winnerAdjustment = 30;
+    winnerAdjustment = (winner.xp > loser.xp) ? parseInt(winnerAdjustment - ((winner.xp - loser.xp) / 100)) : parseInt(winnerAdjustment + ((loser.xp - winner.xp) / 100));
+    winnerAdjustment = (winnerAdjustment < 10) ? 10 : winnerAdjustment;
+    
+    var loserAdjustment = -15;
+    loserAdjustment = (loser.xp > winner.xp) ? parseInt(loserAdjustment - ((loser.xp - winner.xp) / 100)) : parseInt(loserAdjustment + ((winner.xp - loser.xp) / 100));
+    loserAdjustment = (loserAdjustment > 0) ? 0 : loserAdjustment;
+
+    return [winnerAdjustment, loserAdjustment];
+}
