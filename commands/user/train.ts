@@ -1,6 +1,6 @@
 import { moves, activeTraining, players, Player, Move, Training } from '../../data/database.js';
 import { LEVEL_CAP } from '../../data/storage/config.js';
-import { getTimeLeft, getTimeToTrain } from '../../data/handlers.js';
+import { getTimeLeft, getTimeToTrain } from '../../utils/moveUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export const train = new SlashCommandBuilder()
@@ -18,7 +18,7 @@ export function doTrain(interaction : any) {
     // Check for already active training
     if (activeTraining.has(author.id)) {
         var move = activeTraining.get(author.id);
-        var time = Math.round(getTimeLeft(move)/60)
+        var time = Math.round(getTimeLeft(move) / 60);
         interaction.reply(`You\'re already training ${move.name}! Come back in ${time} minutes!`);
         return;
     }

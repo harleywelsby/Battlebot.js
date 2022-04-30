@@ -1,4 +1,4 @@
-import { Move, MoveType } from '../data/database.js';
+import { Move, MoveType, Training } from '../data/database.js';
 import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../data/storage/config.js';
 
 // Calculate move damage with modifiers
@@ -31,4 +31,17 @@ export function moveStringToEnum(typeString : string) : MoveType {
         case 'grapple':
             return MoveType.Grapple;
     }
+}
+
+//Calculate time training should take
+export function getTimeToTrain(move : Training) {
+    return (move.level / 5) * 15;
+}
+
+//Calculate how much time is left on active training in seconds
+export function getTimeLeft(move : Training) {
+    var trainTime = getTimeToTrain(move) * 60;
+    var now = Date.now();
+    var sofar = (now - move.startTime)/1000;
+    return trainTime - sofar;
 }
