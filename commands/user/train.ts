@@ -2,7 +2,7 @@ import { moves, activeTraining, players, Player, Move, Training } from '../../da
 import { LEVEL_CAP } from '../../data/storage/config.js';
 import { getTimeLeft, getTimeToTrain } from '../../utils/moveUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { bot, DiscordLogChannel } from '../../startup.js';
+import { bot } from '../../startup.js';
 import { TextChannel } from 'discord.js';
 
 export const train = new SlashCommandBuilder()

@@ -30,12 +30,36 @@ export function moveStringToEnum(typeString : string) : MoveType {
             return MoveType.Kick;
         case 'grapple':
             return MoveType.Grapple;
+        case 'ranged':
+            return MoveType.Ranged;
+        case 'mental':
+            return MoveType.Mental;
+        case 'slam':
+            return MoveType.Slam;
+    }
+}
+
+// Convert move enum to string
+export function moveEnumToString(moveType : MoveType) : string {
+    switch (moveType) {
+        case MoveType.Punch:
+            return 'punch';
+        case MoveType.Kick:
+            return 'kick';
+        case MoveType.Grapple:
+            return 'grapple';
+        case MoveType.Ranged:
+            return 'ranged';
+        case MoveType.Mental:
+            return 'mental';
+        case MoveType.Slam:
+            return 'slam';
     }
 }
 
 //Calculate time training should take
 export function getTimeToTrain(move : Training) {
-    return 1 //(move.level / 5) * 15;
+    return (move.level / 5) * 15;
 }
 
 //Calculate how much time is left on active training in seconds

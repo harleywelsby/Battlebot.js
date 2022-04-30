@@ -43,7 +43,10 @@ export enum FightStage {
 export enum MoveType {
     Punch = 1,
     Kick,
-    Grapple
+    Grapple,
+    Ranged,
+    Mental,
+    Slam
 }
 
 export type Rank = {

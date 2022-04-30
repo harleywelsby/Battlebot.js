@@ -19,12 +19,19 @@ export async function doSignup(interaction) {
         var punchlist = valueArray.filter(move => move.type === MoveType.Punch);
         var kicklist = valueArray.filter(move => move.type === MoveType.Kick);
         var grapplelist = valueArray.filter(move => move.type === MoveType.Grapple);
+        var rangedlist = valueArray.filter(move => move.type === MoveType.Ranged);
+        var mentallist = valueArray.filter(move => move.type === MoveType.Mental);
+        var bodyslamlist = valueArray.filter(move => move.type === MoveType.Slam);
+
 
         //Distribute 3 at random
         var playermoves = [];
         playermoves.push(3 + ' ' + punchlist[getRandomInt(punchlist.length)].name);
         playermoves.push(3 + ' ' + kicklist[getRandomInt(kicklist.length)].name);
         playermoves.push(3 + ' ' + grapplelist[getRandomInt(grapplelist.length)].name);
+        playermoves.push(3 + ' ' + rangedlist[getRandomInt(rangedlist.length)].name);
+        playermoves.push(3 + ' ' + mentallist[getRandomInt(mentallist.length)].name);
+        playermoves.push(3 + ' ' + bodyslamlist[getRandomInt(bodyslamlist.length)].name);
 
         //Add player to db
         var player = {

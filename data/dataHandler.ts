@@ -38,6 +38,12 @@ function parseMoveType(typeString : string) : MoveType {
             return MoveType.Kick;
         case 'grapple':
             return MoveType.Grapple;
+        case 'ranged':
+            return MoveType.Ranged;
+        case 'mental':
+            return MoveType.Mental;
+        case 'slam':
+            return MoveType.Slam;
     }
 }
 

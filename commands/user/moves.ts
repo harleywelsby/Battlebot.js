@@ -1,6 +1,6 @@
 import { moves, players, Move, MoveType } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { getMoveAccuracy, getMoveDamage, getMoveString } from '../../utils/moveUtils.js';
+import { getMoveAccuracy, getMoveDamage, getMoveString, moveEnumToString } from '../../utils/moveUtils.js';
 import { DiscordLogChannel } from '../../startup.js';
 
 export const checkMoves = new SlashCommandBuilder()
@@ -37,7 +37,7 @@ function getMovesMine(interaction : any) {
             DiscordLogChannel.send(`Moves for player ${author.id} displayed incorrrectly at ${i}: Invalid move`);
         }
         move.level = parseInt(playerEntry.movelist[i].split(' ')[0]);
-        toSend += `L.${playerEntry.movelist[i]} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
+        toSend += `L.${playerEntry.movelist[i]} | ${moveEnumToString(move.type)} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
     }
 
     interaction.reply(toSend);
@@ -51,20 +51,38 @@ function getMovesAll(interaction : any) {
     var punchlist : Move[] = valueArray.filter(move => move.type === MoveType.Punch);
     var kicklist : Move[] = valueArray.filter(move => move.type === MoveType.Kick);
     var grapplelist : Move[] = valueArray.filter(move => move.type === MoveType.Grapple);
+    var rangedlist : Move[] = valueArray.filter(move => move.type === MoveType.Ranged);
+    var mentallist : Move[] = valueArray.filter(move => move.type === MoveType.Mental);
+    var bodyslamlist : Move[] = valueArray.filter(move => move.type === MoveType.Slam);
 
-    toSend += '\nPunches:\n';
+    toSend += '\nPunch:\n';
     for (let i = 0; i < punchlist.length; i++) {
         toSend += getMoveString(punchlist[i]);
     }
 
-    toSend += '\nKicks:\n';
+    toSend += '\nKick:\n';
     for (let i = 0; i < kicklist.length; i++) {
         toSend += getMoveString(kicklist[i]);
     }
 
-    toSend += '\nGrapples:\n';
+    toSend += '\nGrapple:\n';
     for (let i = 0; i < grapplelist.length; i++) {
         toSend += getMoveString(grapplelist[i]);
+    }
+
+    toSend += '\nRanged:\n';
+    for (let i = 0; i < rangedlist.length; i++) {
+        toSend += getMoveString(rangedlist[i]);
+    }
+
+    toSend += '\nMental:\n';
+    for (let i = 0; i < mentallist.length; i++) {
+        toSend += getMoveString(mentallist[i]);
+    }
+
+    toSend += '\nSlam:\n';
+    for (let i = 0; i < bodyslamlist.length; i++) {
+        toSend += getMoveString(bodyslamlist[i]);
     }
 
     interaction.reply(toSend);
