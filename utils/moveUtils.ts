@@ -69,3 +69,83 @@ export function getTimeLeft(move : Training) {
     var sofar = (now - move.startTime)/1000;
     return trainTime - sofar;
 }
+
+// Calculate move type modifiers
+export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number {
+    switch (type) {
+        case MoveType.Punch:
+            switch (lastType) {
+                case MoveType.Kick:
+                    return 0.5;
+                case MoveType.Grapple:
+                    return 1.5;
+                case MoveType.Ranged:
+                    return 0.25;
+                case MoveType.Mental:
+                    return 1.25;
+                case MoveType.Slam:
+                    return 1.25;
+            }
+        case MoveType.Kick:
+            switch (lastType) {
+                case MoveType.Punch:
+                    return 1.5;
+                case MoveType.Grapple:
+                    return 0.5;
+                case MoveType.Ranged:
+                    return 0.5;
+                case MoveType.Mental:
+                    return 1.25;
+                case MoveType.Slam:
+                    return 1.75;
+            }
+        case MoveType.Grapple:
+            switch (lastType) {
+                case MoveType.Punch:
+                    return 1.5;
+                case MoveType.Kick:
+                    return 1.5;
+                case MoveType.Ranged:
+                    return 0.25;
+                case MoveType.Slam:
+                    return 0.75;
+            }
+        case MoveType.Ranged:
+            switch (lastType) {
+                case MoveType.Punch:
+                    return 1.75;
+                case MoveType.Kick:
+                    return 1.75;
+                case MoveType.Grapple:
+                    return 1.75;
+                case MoveType.Mental:
+                    return 0.25;
+                case MoveType.Slam:
+                    return 0.25;
+            }
+        case MoveType.Mental:
+            switch (lastType) {
+                case MoveType.Kick:
+                    return 0.5;
+                case MoveType.Ranged:
+                    return 2.0;
+                case MoveType.Mental:
+                    return 1.5;
+                case MoveType.Slam:
+                    return 0.5;
+            }
+        case MoveType.Slam:
+            switch (lastType) {
+                case MoveType.Punch:
+                    return 0.75;
+                case MoveType.Kick:
+                    return 0.5;
+                case MoveType.Grapple:
+                    return 1.25;
+                case MoveType.Ranged:
+                    return 1.75;
+                case MoveType.Mental:
+                    return 1.5;
+            }
+    }
+}

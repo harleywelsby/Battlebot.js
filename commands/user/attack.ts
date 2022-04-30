@@ -2,7 +2,7 @@ import { activeFights, moves, players, Fight, FightStage, Move, MoveType, Player
 import { eloAdjustment, getFightEmbed, getPlayerMove, isValidMove } from '../../utils/fightUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { TextChannel, User } from 'discord.js';
-import { getMoveAccuracy, getMoveDamage } from '../../utils/moveUtils.js';
+import { getBuffByLastMove, getMoveAccuracy, getMoveDamage } from '../../utils/moveUtils.js';
 import { MISS_CHANCE } from '../../data/storage/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
@@ -50,38 +50,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         if (fight.lastTurn) {
             var lastType = fight.lastTurn.type;
             var type = move.type;
-
-            // Calculate move type modifiers
-            switch (type) {
-                case MoveType.Kick:
-                    if (lastType === MoveType.Punch) {
-                        toHit *= 1.5;
-                    }
-                    else if (lastType === MoveType.Grapple) {
-                        toHit *= 0.5;
-                    }
-                    break;
-                case MoveType.Punch:
-                    if (lastType === MoveType.Grapple) {
-                        toHit *= 1.5;
-                    }
-                    else if (lastType === MoveType.Kick) {
-                        toHit *= 0.5;
-                    }
-                    break;
-                case MoveType.Grapple:
-                    if (lastType === MoveType.Kick) {
-                        toHit *= 1.5;
-                    }
-                    else if (lastType === MoveType.Punch) {
-                        toHit *= 0.5;
-                    }
-                    break;
-                default:
-                    interaction.reply('An error has occured, please try again');
-                    DiscordLogChannel.send(`Attack failed: Move type could not be found for user ${author.id}`);
-                    return;
-            }
+            toHit *= getBuffByLastMove(type, lastType);
         }
 
         // If move was played last turn, damage is reduced
