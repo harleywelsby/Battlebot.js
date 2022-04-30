@@ -35,6 +35,13 @@ export type Fight = {
     lastTurn: Move;
 }
 
+export type Rank = {
+    name: string;
+    start: number;
+    end: number;
+    pic: string;
+}
+
 export enum FightStage {
     Lobby = 1,
     Fight
@@ -47,11 +54,4 @@ export enum MoveType {
     Ranged,
     Mental,
     Slam
-}
-
-export type Rank = {
-    name: string;
-    start: number;
-    end: number;
-    pic: string;
 }
