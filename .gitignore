@@ -6,3 +6,4 @@ tscompile
 moves.json
 ranks.json
 data/storage/
+statusEffectHandler.ts

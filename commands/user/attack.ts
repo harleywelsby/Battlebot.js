@@ -6,6 +6,8 @@ import { getBuffByLastMove, getMoveAccuracy, getMoveDamage } from '../../utils/m
 import { MISS_CHANCE } from '../../data/storage/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
+import { checkForEffect, getClassByEnum } from '../../utils/statusEffectUtils.js';
+import { EffectEnum } from '../../data/statusEffectHandler.js';
 
 export const attack = new SlashCommandBuilder()
     .setName('attack')
@@ -66,19 +68,80 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
             toHit *= 1.2;
         }
 
+        var confused = false;
+        // Check for effect on attacker and execute it
+        if (attacker.effect) {
+            switch (attacker.effect) {
+                case EffectEnum.Concussion:
+                    miss -= (Math.random() * 40);
+                    break;
+                case EffectEnum.Winded:
+                    toHit -= (Math.random() * toHit);
+                    break;
+                case EffectEnum.Dazzled:
+                    if (Math.random() < 0.5) {
+                        miss -= (Math.random() * 20);
+                    }
+                    else {
+                        toHit -= (Math.random() * toHit) / 2;
+                    }
+                    break;
+                case EffectEnum.BrokenLeg:
+                    if (move.type === MoveType.Kick) {
+                        toHit -= toHit / 2;
+                    }
+                    break;
+                case EffectEnum.BrokenArm:
+                    if (move.type === MoveType.Punch) {
+                        toHit -= toHit / 2;
+                    }
+                    break;
+                case EffectEnum.Demoralised:
+                    if (move.type === MoveType.Ranged || move.type === MoveType.Mental) {
+                        toHit -= toHit / 2;
+                    }
+                    break;
+                case EffectEnum.Confused:
+                    var roll = Math.random();
+                    if (roll > 0.75) {
+                        confused = true;
+                    }
+                    break;
+            }
+            players.get(attacker.name).effect = undefined;
+        }
+    }
+
+    // Seperate call to factor in status effect acc changes
+    if (miss > MISS_CHANCE) {
         // Hit the opponent
         toHit = Math.round(toHit * 100) / 100;
         opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
     }
 
+    // Roll to apply effect to opponents
+    players.get(opponent.name).effect = checkForEffect(move);
+
     // Get embed description
     var moveDescription = undefined;
-    if (miss > MISS_CHANCE) {
-        moveDescription = `POW! ${getNameFromId(author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} for ${toHit}hp!\n`
+    if (confused) {
+        moveDescription = `Uh oh! ${getNameFromId(author.id)} is confused! They have hurt themself for ${toHit}hp!`;
     }
     else {
-        moveDescription = `WOOSH! ${getNameFromId(author.id)} missed their ${move.name}! No damage has been taken!\n`
+        if (miss > MISS_CHANCE) {
+            moveDescription = `POW! ${getNameFromId(author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} for ${toHit}hp!\n`
+        }
+        else {
+            moveDescription = `WOOSH! ${getNameFromId(author.id)} missed their ${move.name}! No damage has been taken!\n`
+        }
     }
+    
+
+    // Add effect string to the end of the embed
+    if (players.get(opponent.name).effect) {
+        moveDescription += getNameFromId(opponent.name) + getClassByEnum(players.get(opponent.name).effect).description;
+    }
+
     moveDescription += `\nIt is now ${getNameFromId(opponent.name)}\'s turn!\n`;
 
     // Set turn vars
