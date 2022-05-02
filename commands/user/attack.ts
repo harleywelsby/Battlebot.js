@@ -16,7 +16,11 @@ export const attack = new SlashCommandBuilder()
 
 export function doAttack(interaction : any) {
     // Get values
-    var moveString = interaction.options.getString('move').toLowerCase();
+    var moveString = interaction.options.getString('move')?.toLowerCase();
+    if (!moveString) {
+        interaction.reply('Please specify a move first!');
+        return;
+    }
     var author : User = interaction.member.user;
     var fight : Fight = undefined;
     activeFights.forEach((v,k) => {
@@ -117,10 +121,10 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         // Hit the opponent
         toHit = Math.round(toHit * 100) / 100;
         opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
-    }
 
-    // Roll to apply effect to opponents
-    players.get(opponent.name).effect = checkForEffect(move);
+        // Roll to apply effect to opponents
+        players.get(opponent.name).effect = checkForEffect(move);
+    }
 
     // Get embed description
     var moveDescription = undefined;
@@ -151,52 +155,48 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
 
     // Execute embed
     var embed = getFightEmbed(fight, moveDescription);
+    interaction.reply({ embeds: [embed] });
+    // Check for player defeat
+    if (fight.p1hp <= 0 || fight.p2hp <= 0) {
+        gameOver(interaction, fight);
+    }
+}
+
+function gameOver(interaction : any, fight : Fight) {
     bot.channels.fetch(interaction.channelId)
         .then(channel => {
             if (channel instanceof TextChannel) {
-                channel.send({ embeds: [embed] });
-
-                // Check for player defeat
-                if (fight.p1hp <= 0 || fight.p2hp <= 0) {
-                    gameOver(channel, fight);
+                let winner = undefined;
+                let loser = undefined;
+                if (fight.p1hp <= 0) {
+                    winner = fight.player2;
+                    loser = fight.player1;
                 }
-            }
+                else {
+                    winner = fight.player1;
+                    loser = fight.player2;
+                }
+            
+                channel.send(`KO! ${getNameFromId(winner)} destroyed ${getNameFromId(loser)}!`);
+                players.get(winner).lastmove = null;
+                players.get(loser).lastmove = null;
+                players.get(winner).effect = null;
+                players.get(loser).effect = null;
+            
+                // Adjust elo
+                var eloChange : number[] = eloAdjustment(winner, loser);
+                players.get(winner).xp += eloChange[0];
+                players.get(loser).xp += eloChange[1];
+            
+                channel.send(`<@${winner}> gained ${eloChange[0]} rank xp!`);
+                channel.send(`<@${loser}> lost ${eloChange[1]} rank xp!`);
+            
+                activeFights.delete(`${fight.player2}vs${fight.player1}`);
+            } 
             else {
-                interaction.reply(`An error has occured, please try again.`);
-                DiscordLogChannel.send(`Attack failed: Failed to get embed for user ${author.id}`);
+                DiscordLogChannel.send('Error occured: Attack not in text channel'); // Should never happen, but good to check
             }
         });
-    // This stops "Application did not respond" messages
-    interaction.reply('🥊');
-}
-
-function gameOver(channel : TextChannel, fight : Fight) {
-    let winner = undefined;
-    let loser = undefined;
-    if (fight.p1hp <= 0) {
-        winner = fight.player2;
-        loser = fight.player1;
-    }
-    else {
-        winner = fight.player1;
-        loser = fight.player2;
-    }
-
-    channel.send(`KO! ${getNameFromId(winner)} destroyed ${getNameFromId(loser)}!`);
-    players.get(winner).lastmove = null;
-    players.get(loser).lastmove = null;
-    players.get(winner).effect = null;
-    players.get(loser).effect = null;
-
-    // Adjust elo
-    var eloChange : number[] = eloAdjustment(winner, loser);
-    players.get(winner).xp += eloChange[0];
-    players.get(loser).xp += eloChange[1];
-
-    channel.send(`<@${winner}> gained ${eloChange[0]} rank xp!`);
-    channel.send(`<@${loser}> lost ${eloChange[1]} rank xp!`);
-
-    activeFights.delete(`${fight.player2}vs${fight.player1}`);
 }
 
 //Get highest level move
