@@ -93,7 +93,7 @@ function acceptFight(interaction : any) {
         if (k.includes(`vs${author.id}`) && v.stage === FightStage.Lobby) {
             v.stage = FightStage.Fight;
             found = true;
-            initFightArena(interaction, v, author);
+            initFightArena(interaction, v);
             return;
         }
     });
@@ -104,12 +104,12 @@ function acceptFight(interaction : any) {
 }
 
 //Initialize the arena
-function initFightArena(interaction : any, fight : Fight, author : User) {
+function initFightArena(interaction : any, fight : Fight) {
     var embed = getFightEmbed(fight, null);
     bot.channels.fetch(interaction.channelId)
         .then(channel => {
             if (channel instanceof TextChannel) {
-                interaction.reply(`<@${author.id}> has accepted <@${fight.player2}>\'s fight! Initializing the arena...`);
+                interaction.reply(`<@${fight.player1}> has accepted <@${fight.player2}>\'s fight! Initializing the arena...`);
                 channel.send({ embeds: [embed] });
             }
             else {
