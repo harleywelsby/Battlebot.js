@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { BOT_ID } from '../../data/storage/deployConfig.js';
 import { getFightEmbed } from '../../utils/fightUtils.js';
 import { bot } from '../../startup.js';
-import { TextChannel } from 'discord.js';
+import { TextChannel, User } from 'discord.js';
 
 export const fight = new SlashCommandBuilder()
     .setName('fight')
@@ -93,8 +93,7 @@ function acceptFight(interaction : any) {
         if (k.includes(`vs${author.id}`) && v.stage === FightStage.Lobby) {
             v.stage = FightStage.Fight;
             found = true;
-            interaction.reply(`<@${author.id}> has accepted <@${v.player2}>\'s fight! Initializing the arena...`);
-            initFightArena(interaction, v);
+            initFightArena(interaction, v, author);
             return;
         }
     });
@@ -105,11 +104,12 @@ function acceptFight(interaction : any) {
 }
 
 //Initialize the arena
-function initFightArena(interaction : any, fight : Fight) {
+function initFightArena(interaction : any, fight : Fight, author : User) {
     var embed = getFightEmbed(fight, null);
     bot.channels.fetch(interaction.channelId)
         .then(channel => {
             if (channel instanceof TextChannel) {
+                interaction.reply(`<@${author.id}> has accepted <@${fight.player2}>\'s fight! Initializing the arena...`);
                 channel.send({ embeds: [embed] });
             }
             else {
