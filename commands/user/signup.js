@@ -11,7 +11,10 @@ export async function doSignup(interaction) {
     var author = interaction.member.user;
     
     if(players.has(author.id)){
-        interaction.reply('You\'ve already signed up!');
+        interaction.reply({
+            content: 'You\'ve already signed up!',
+            ephemeral: true
+        });
     }
     else {
         //Sort the moves by type
