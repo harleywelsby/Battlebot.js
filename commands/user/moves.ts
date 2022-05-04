@@ -40,7 +40,10 @@ function getMovesMine(interaction : any) {
         toSend += `L.${playerEntry.movelist[i]} | ${moveEnumToString(move.type)} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
     }
 
-    interaction.reply(toSend);
+    interaction.reply({
+        content: toSend,
+        ephemeral: true
+    });
 }
 
 function getMovesAll(interaction : any) {
@@ -85,5 +88,8 @@ function getMovesAll(interaction : any) {
         toSend += getMoveString(bodyslamlist[i]);
     }
 
-    interaction.reply(toSend);
+    interaction.reply({
+        content: toSend,
+        ephemeral: true
+    });
 }

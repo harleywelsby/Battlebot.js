@@ -18,6 +18,8 @@ export function getLastAutosave() {
                 var player = {
                     name: values[0],
                     xp: values[1],
+                    wins: values[2],
+                    losses: values[3],
                     effect: null,
                     movelist: playerdata[i].split(values[0]+','+values[1]+',')[1].split(','),
                     lastmove: null

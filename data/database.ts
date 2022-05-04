@@ -19,6 +19,8 @@ export type Player = {
     effect: EffectEnum;
     movelist: string[];
     lastmove: Move;
+    wins: number;
+    losses: number;
 }
 
 export type Training = {

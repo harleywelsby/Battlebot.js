@@ -39,11 +39,16 @@ export async function doSignup(interaction) {
             xp: 0,
             effect: null,
             movelist: playermoves,
-            lastmove: null
+            lastmove: null,
+            wins: 0,
+            losses: 0
         }
         players.set(author.id, player)
 
         //Respond
-        interaction.reply(`Welcome to BattleBot <@${author.id}>!\nYou\'ll start with some basic moves.\n To see the commands, type .help\n good luck!`);
+        interaction.reply({
+            content: `Welcome to BattleBot <@${author.id}>!\nYou\'ll start with some basic moves.\n To see the commands, type .help\n good luck!`,
+            ephemeral: true
+        });
     }
 }

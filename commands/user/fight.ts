@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { BOT_ID } from '../../data/storage/deployConfig.js';
 import { getFightEmbed } from '../../utils/fightUtils.js';
 import { bot } from '../../startup.js';
-import { TextChannel, User } from 'discord.js';
+import { TextChannel } from 'discord.js';
 
 export const fight = new SlashCommandBuilder()
     .setName('fight')
