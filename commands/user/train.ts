@@ -3,7 +3,7 @@ import { LEVEL_CAP } from '../../data/storage/config.js';
 import { getTimeLeft, getTimeToTrain } from '../../utils/moveUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { bot } from '../../startup.js';
-import { TextChannel } from 'discord.js';
+import { TextChannel, User } from 'discord.js';
 
 export const train = new SlashCommandBuilder()
     .setName('train')
@@ -58,7 +58,7 @@ export function doTrain(interaction : any) {
             level: selectedMove.level + 1,
             startTime: Date.now()
         }
-        activeTraining.set(author.id, training);
+        trainOnThread(interaction, training, author);
 
         interaction.reply(`Training ${training.name} to level ${training.level}... This may take a while... (${getTimeToTrain(training)} mins)`);
         return;
@@ -70,37 +70,19 @@ export function doTrain(interaction : any) {
         level: 1,
         startTime: Date.now()
     }
-    activeTraining.set(author.id, training);
+    trainOnThread(interaction, training, author);
+
     interaction.reply(`Training ${training.name} to level 1... This may take a while... (${getTimeToTrain(training)} mins)`);
 }
 
-export function checkTraining(interaction : any) {
-    bot.channels.fetch(interaction.channelId)
+export function trainOnThread(interaction : any, training : Training, author : User) {
+    // Start a new thread training the move
+    setTimeout(function() {
+        bot.channels.fetch(interaction.channelId)
         .then(channel => {
             if (channel instanceof TextChannel) {
-                var toRemoveKeys = [];
-                activeTraining.forEach((v,k) => {
-                    if ((Date.now()) - (getTimeToTrain(v) * 60000) >= v.startTime) {
-                        channel.send(`<@${k}> your ${v.name} has reached level ${v.level}!`);
-
-                        var found = false;
-                        players.get(k).movelist.forEach((moveString : string) => {
-                            if (moveString.split(' ')[1].toLowerCase() === v.name.toLowerCase()) {
-                                found = true;
-                                var index = players.get(k).movelist.indexOf(moveString);
-                                players.get(k).movelist[index] = `${v.level} ${v.name}`;
-                                return;
-                            }
-                        });
-
-                        if (!found) {
-                            players.get(k).movelist.push(`${v.level} ${v.name}`);
-                        }
-
-                        toRemoveKeys.push(k);
-                    }
-                });
-                toRemoveKeys.forEach(key => activeTraining.delete(key));
+                channel.send(`<@${author.id}> your ${training.name} has reached level ${training.level}!`);
             }
         });
+    }, getTimeToTrain(training) * 60000);
 }

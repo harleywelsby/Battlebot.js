@@ -14,7 +14,7 @@ import { players } from './data/database.js';
 // Command imports
 import { signup, doSignup } from './commands/user/signup.js';
 import { checkMoves, doMoves } from './commands/user/moves.js';
-import { train, doTrain, checkTraining } from './commands/user/train.js';
+import { train, doTrain } from './commands/user/train.js';
 import { fight, doFight } from './commands/user/fight.js';
 import { profile, doProfile } from './commands/user/profile.js';
 import { attack, doAttack } from './commands/user/attack.js';
@@ -68,8 +68,6 @@ bot.on('ready', () => {
 
 bot.on('interactionCreate', interaction => {
     if (!interaction.isCommand()) return;
-
-    checkTraining(interaction);
 
     // Check that the user has signed up
     if (!players.has(interaction.member.user.id)
