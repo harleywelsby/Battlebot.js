@@ -21,7 +21,7 @@ export function getLastAutosave() {
                     wins: values[2],
                     losses: values[3],
                     effect: null,
-                    movelist: playerdata[i].split(values[0]+','+values[1]+',')[1].split(','),
+                    movelist: playerdata[i].split(values[0]+','+values[1]+','+values[2]+','+values[3]+',')[1].split(','),
                     lastmove: null
                 }
                 players.set(player.name, player);

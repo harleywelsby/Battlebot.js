@@ -182,6 +182,10 @@ function gameOver(interaction : any, fight : Fight) {
                 players.get(loser).lastmove = null;
                 players.get(winner).effect = null;
                 players.get(loser).effect = null;
+
+                // Increment wins/losses
+                players.get(winner).wins = parseInt(players.get(winner).wins) + 1;
+                players.get(loser).losses = parseInt(players.get(loser).losses) + 1;
             
                 // Adjust elo
                 var eloChange : number[] = eloAdjustment(winner, loser);

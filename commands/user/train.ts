@@ -87,7 +87,8 @@ export function checkTraining(interaction : any) {
                         players.get(k).movelist.forEach((moveString : string) => {
                             if (moveString.split(' ')[1].toLowerCase() === v.name.toLowerCase()) {
                                 found = true;
-                                moveString = `${v.level} ${v.name}`;
+                                var index = players.get(k).movelist.indexOf(moveString);
+                                players.get(k).movelist[index] = `${v.level} ${v.name}`;
                                 return;
                             }
                         });
