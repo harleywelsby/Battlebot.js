@@ -1,5 +1,5 @@
 import { moves, Move, Rank, ranks, MoveType } from './database.js';
-import { getLastAutosave, setLastSave } from './autosave.js';
+import { getLastAutosave, autosave } from './autosave.js';
 
 // JSON import stuff, see here:
 // https://stackoverflow.com/questions/60205891/import-json-extension-in-es6-node-js-throws-an-error
@@ -11,7 +11,7 @@ export function LoadAllData() {
     constructMoveData();
     constructRankData();
     getLastAutosave();
-    setLastSave()
+    autosave();
     console.log('Players initialized!');
 }
 
