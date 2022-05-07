@@ -1,3 +1,4 @@
+// This has been retired as it no longer works with the timeout-based training method
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { activeTraining, players, Player } from '../../data/database.js';
 import { bot, DiscordLogChannel } from '../../startup.js';

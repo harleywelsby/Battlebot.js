@@ -82,6 +82,20 @@ export function trainOnThread(interaction : any, training : Training, author : U
         .then(channel => {
             if (channel instanceof TextChannel) {
                 channel.send(`<@${author.id}> your ${training.name} has reached level ${training.level}!`);
+                if (training.level === 1) {
+                    players.get(author.id).movelist.push(`1 ${training.name}`);
+                    return;
+                }
+                else {
+                    var player : Player = players.get(author.id);
+                    for (let i = 0; i < player.movelist.length; i++) {
+                        var check = player.movelist[i].split(' ')[1];
+                        if (check.toLowerCase() === training.name.toLowerCase()) {
+                            players.get(author.id).movelist[i] = `${training.level} ${training.name}`;
+                            return;
+                        }
+                    }
+                }
             }
         });
     }, getTimeToTrain(training) * 60000);
