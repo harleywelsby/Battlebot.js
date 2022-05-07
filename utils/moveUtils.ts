@@ -1,5 +1,6 @@
 import { Move, MoveType, Training } from '../data/database.js';
 import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../data/storage/config.js';
+import { MISS_CHANCE } from '../data/storage/deployConfig.js';
 
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
@@ -17,7 +18,8 @@ export function getMoveAccuracy(move : Move) : number {
     var miss : number = move.level;
     miss -= LEVEL_CAP - (move.level);
     miss -= move.damage * (-move.level / MIN_DAMAGE);
-    return miss;
+
+    return (miss < -15) ? miss : -15;
 }
 
 // Convert move string to enum
