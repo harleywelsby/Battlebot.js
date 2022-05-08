@@ -19,7 +19,7 @@ export function getMoveAccuracy(move : Move) : number {
     miss -= LEVEL_CAP - (move.level);
     miss -= move.damage * (-move.level / MIN_DAMAGE);
 
-    return (miss < -15) ? miss : -15;
+    return (miss > -15) ? miss : -15;
 }
 
 // Convert move string to enum

@@ -77,6 +77,7 @@ export function doTrain(interaction : any) {
 
 export function trainOnThread(interaction : any, training : Training, author : User) {
     // Start a new thread training the move
+    activeTraining.set(author.id, training);
     setTimeout(function() {
         bot.channels.fetch(interaction.channelId)
         .then(channel => {
@@ -96,6 +97,7 @@ export function trainOnThread(interaction : any, training : Training, author : U
                         }
                     }
                 }
+                activeTraining.delete(author.id);
             }
         });
     }, getTimeToTrain(training) * 60000);
