@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { AdminId, SaveChannel } from '../../data/storage/tokens.js';
+import { AdminId, SaveChannel } from '../../config/config.js';
 import { bot } from '../../startup.js';
 import { TextChannel } from 'discord.js';
 import { players } from '../../data/database.js';

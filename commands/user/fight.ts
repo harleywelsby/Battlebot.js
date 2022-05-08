@@ -1,6 +1,6 @@
 import { players, activeFights, Fight, FightStage } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { BOT_ID } from '../../data/storage/deployConfig.js';
+import { BotId } from '../../config/config.js';
 import { getFightEmbed } from '../../utils/fightUtils.js';
 import { bot } from '../../startup.js';
 import { TextChannel } from 'discord.js';
@@ -49,7 +49,7 @@ function startFight(interaction : any) {
     var mention = interaction.options.getUser('user');
 
     // Can't challenge the bot, but you will be able to
-    if (mention.id === BOT_ID()) {
+    if (mention.id === BotId) {
         //botfight(msg); TODO
         // This was a feature on v2, but will be regressed to get a slash command prototype running
         interaction.reply('You can\'t fight me! Yet...');

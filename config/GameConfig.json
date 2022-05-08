@@ -1,0 +1,8 @@
+{
+    "LevelCap": 30,
+    "MissChance": 20,
+    "AutosaveInterval": 3600000,
+    "MinDamage": 5,
+    "DamageModifier": 0.7,
+    "EmbedColour": "#9145B6"
+}

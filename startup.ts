@@ -5,7 +5,7 @@
 // =============================================================
 
 import { Client, Intents, TextChannel } from 'discord.js';
-import { Token, LogChannel, ClientId, GuildId } from './data/storage/tokens.js';
+import { Token, LogChannel, ClientId, GuildId } from './config/config.js';
 import { LoadAllData } from './data/dataHandler.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
@@ -21,6 +21,10 @@ import { attack, doAttack } from './commands/user/attack.js';
 import { scoreboard, doScoreboard } from './commands/user/scoreboard.js';
 import { doSave, save } from './commands/admin/save.js';
 import { doFinishTraining, finishTraining } from './commands/admin/finishTraining.js';
+import { LoadGameConfig, LoadTokenConfig } from './config/config.js';
+
+LoadTokenConfig();
+LoadGameConfig();
 
 // Load commands
 const commands = [];
@@ -36,12 +40,12 @@ commands.push(finishTraining.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
-const rest = new REST({ version: '9' }).setToken(Token());
+const rest = new REST({ version: '9' }).setToken(Token);
 (async () => {
     try {
         console.log('Refreshing Slash Commands');
         await rest.put(
-            Routes.applicationGuildCommands(ClientId(), GuildId),
+            Routes.applicationGuildCommands(ClientId, GuildId),
             { body: commands }
         );
     }
@@ -109,4 +113,4 @@ bot.on('interactionCreate', interaction => {
     }
 });
 
-bot.login(Token());
+bot.login(Token);

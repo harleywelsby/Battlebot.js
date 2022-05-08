@@ -1,5 +1,5 @@
 import { moves, activeTraining, players, Player, Move, Training } from '../../data/database.js';
-import { LEVEL_CAP } from '../../data/storage/config.js';
+import { LevelCap } from '../../config/config.js';
 import { getTimeLeft, getTimeToTrain } from '../../utils/moveUtils.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { bot } from '../../startup.js';
@@ -48,7 +48,7 @@ export function doTrain(interaction : any) {
     if (selectedMove != undefined) {
 
         // Enforce level cap
-        if (selectedMove.level >= LEVEL_CAP) {
+        if (selectedMove.level >= LevelCap) {
             interaction.reply('You\'ve already reached max level for this move!');
             return;
         }

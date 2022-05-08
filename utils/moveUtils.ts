@@ -1,11 +1,10 @@
 import { Move, MoveType, Training } from '../data/database.js';
-import { DAMAGE_MODIFIER, LEVEL_CAP, MIN_DAMAGE } from '../data/storage/config.js';
-import { MISS_CHANCE } from '../data/storage/deployConfig.js';
+import { DamageModifier, LevelCap, MinDamage } from '../config/config.js';
 
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
-    var toHit : number = move.damage + (move.level * DAMAGE_MODIFIER);
-    return toHit > MIN_DAMAGE ? toHit : MIN_DAMAGE;
+    var toHit : number = move.damage + (move.level * DamageModifier);
+    return toHit > MinDamage ? toHit : MinDamage;
 }
 
 // Get move as a string
@@ -16,8 +15,8 @@ export function getMoveString(move : Move) : string {
 // Calculate move accuracy
 export function getMoveAccuracy(move : Move) : number {
     var miss : number = move.level;
-    miss -= LEVEL_CAP - (move.level);
-    miss -= move.damage * (-move.level / MIN_DAMAGE);
+    miss -= LevelCap - (move.level);
+    miss -= move.damage * (-move.level / MinDamage);
 
     return (miss > -15) ? miss : -15;
 }

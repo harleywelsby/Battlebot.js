@@ -1,9 +1,7 @@
-deployConfig.js
 node_modules
 package-lock.json
-tokens.ts
 tscompile
 moves.json
 ranks.json
-data/storage/
+TokenConfig.json
 statusEffectHandler.ts

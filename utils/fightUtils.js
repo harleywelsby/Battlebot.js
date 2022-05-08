@@ -1,4 +1,4 @@
-import { EMBED_COLOUR } from '../../data/storage/config.js';
+import { EmbedColour } from '../config/config.js';
 import { getNameFromId } from './playerUtils.js';
 import { players } from '../data/database.js';
 import { MessageEmbed } from 'discord.js';
@@ -12,7 +12,7 @@ export function getFightEmbed(fight, move) {
     var player2 = getNameFromId(fight.player2);
 
     const fightEmbed = new MessageEmbed()
-        .setColor(EMBED_COLOUR)
+        .setColor(EmbedColour)
         .setTitle(`${player1} vs ${player2}`)
         .setDescription(moveDescription)
         .addFields(

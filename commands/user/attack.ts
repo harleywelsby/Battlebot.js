@@ -3,7 +3,7 @@ import { eloAdjustment, getFightEmbed, getPlayerMove, isValidMove } from '../../
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { TextChannel, User } from 'discord.js';
 import { getBuffByLastMove, getMoveAccuracy, getMoveDamage } from '../../utils/moveUtils.js';
-import { MISS_CHANCE } from '../../data/storage/config.js';
+import { MissChance } from '../../config/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
 import { checkForEffect, getClassByEnum } from '../../utils/statusEffectUtils.js';
@@ -51,7 +51,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
     var miss = Math.random() * 100;
     miss += getMoveAccuracy(move);
 
-    if (miss > MISS_CHANCE) {
+    if (miss > MissChance) {
         // Calculate type bonuses
         if (fight.lastTurn) {
             var lastType = fight.lastTurn.type;
@@ -117,7 +117,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
     }
 
     // Seperate call to factor in status effect acc changes
-    if (miss > MISS_CHANCE) {
+    if (miss > MissChance) {
         // Hit the opponent
         toHit = Math.round(toHit * 100) / 100;
         opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
@@ -132,7 +132,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         moveDescription = `Uh oh! ${getNameFromId(author.id)} is confused! They have hurt themself for ${toHit}hp!`;
     }
     else {
-        if (miss > MISS_CHANCE) {
+        if (miss > MissChance) {
             moveDescription = `POW! ${getNameFromId(author.id)} hit ${getNameFromId(opponent.name)} with a ${move.name} for ${toHit}hp!\n`
         }
         else {

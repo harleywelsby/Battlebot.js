@@ -1,8 +1,8 @@
 import { TextChannel } from 'discord.js';
 import { bot } from '../startup.js';
-import { SaveChannel } from './storage/tokens.js';
+import { SaveChannel } from '../config/config.js';
 import { players } from './database.js';
-import { AUTOSAVE_TIME } from './storage/config.js';
+import { AutosaveInterval } from '../config/config.js';
 
 export function getLastAutosave() {
     var channel = bot.channels.cache.find(channel => channel.id === SaveChannel);
@@ -50,7 +50,7 @@ export function autosave() {
 
                     channel.send(toSend);
                     autosave();
-                }, AUTOSAVE_TIME);
+                }, AutosaveInterval);
             }
         });
 }

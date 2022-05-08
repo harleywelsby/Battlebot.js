@@ -3,7 +3,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { activeTraining, players, Player } from '../../data/database.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
 import { TextChannel } from 'discord.js';
-import { AdminId } from '../../data/storage/tokens.js';
+import { AdminId } from '../../config/config.js';
 
 export const finishTraining = new SlashCommandBuilder()
     .setName('fintrain')
