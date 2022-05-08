@@ -1,4 +1,4 @@
-import { Move } from "../data/database";
+import { Move, MoveType } from "../data/database";
 import { 
     Concussion, 
     Winded, 
@@ -31,12 +31,15 @@ export function getClassByEnum(effectEnum : EffectEnum) : StatusEffect {
 }
 
 // Note recovered isn't checked here and should be done seperately TODO
-export function checkForEffect(move : Move) : EffectEnum {
+export function checkForEffect(move : Move, chanceOff : boolean) : EffectEnum {
 
     var output : EffectEnum = undefined;
 
     new Concussion().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.Concussion;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.Concussion : undefined;
         }
@@ -45,6 +48,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new Winded().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.Winded;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.Winded : undefined;
         }
@@ -53,6 +59,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new Dazzled().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.Dazzled;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.Dazzled : undefined;
         }
@@ -61,6 +70,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new BrokenLeg().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.BrokenLeg;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.BrokenLeg : undefined;
         }
@@ -69,6 +81,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new BrokenArm().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.BrokenArm;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.BrokenArm : undefined;
         }
@@ -77,6 +92,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new Demoralised().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.Demoralised;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.Demoralised : undefined;
         }
@@ -85,6 +103,9 @@ export function checkForEffect(move : Move) : EffectEnum {
 
     new Confused().moveChance.forEach(effectMove => {
         if (effectMove.move.toLowerCase() === move.name.toLowerCase()) {
+            if (chanceOff) {
+                return EffectEnum.Confused;
+            }
             var roll = Math.random();
             output = (roll < effectMove.chance) ? EffectEnum.Confused : undefined;
         }

@@ -22,6 +22,7 @@ import { scoreboard, doScoreboard } from './commands/user/scoreboard.js';
 import { doSave, save } from './commands/admin/save.js';
 import { doFinishTraining, finishTraining } from './commands/admin/finishTraining.js';
 import { LoadGameConfig, LoadTokenConfig } from './config/config.js';
+import { analyze, doAnalyze } from './commands/user/analyze.js';
 
 LoadTokenConfig();
 LoadGameConfig();
@@ -37,6 +38,7 @@ commands.push(attack.toJSON());
 commands.push(scoreboard.toJSON());
 commands.push(save.toJSON());
 commands.push(finishTraining.toJSON());
+commands.push(analyze.toJSON());
 
 // Refresh slash commands on startup, refer to below docs
 // https://discordjs.guide/interactions/slash-commands.html#guild-commands
@@ -107,6 +109,9 @@ bot.on('interactionCreate', interaction => {
             break;
         case 'fintrain':
             doFinishTraining(interaction);
+            break;
+        case 'analyze':
+            doAnalyze(interaction);
             break;
         default:
             interaction.reply('An error has occured, please try again.');

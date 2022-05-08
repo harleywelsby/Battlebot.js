@@ -123,7 +123,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
 
         // Roll to apply effect to opponents
-        players.get(opponent.name).effect = checkForEffect(move);
+        players.get(opponent.name).effect = checkForEffect(move, false);
     }
 
     // Get embed description

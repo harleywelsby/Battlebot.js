@@ -71,6 +71,40 @@ export function getTimeLeft(move : Training) {
     return trainTime - sofar;
 }
 
+export function getStrongAgainst(type : MoveType) : MoveType[] {
+    switch (type) {
+        case MoveType.Punch:
+            return [MoveType.Grapple, MoveType.Mental, MoveType.Slam];
+        case MoveType.Kick:
+            return [MoveType.Punch, MoveType.Mental, MoveType.Slam];
+        case MoveType.Grapple:
+            return [MoveType.Punch, MoveType.Kick];
+        case MoveType.Ranged:
+            return [MoveType.Punch, MoveType.Kick, MoveType.Grapple];
+        case MoveType.Mental:
+            return [MoveType.Ranged, MoveType.Mental];
+        case MoveType.Slam:
+            return [MoveType.Grapple, MoveType.Ranged, MoveType.Mental];
+    }
+}
+
+export function getWeakAgainst(type : MoveType) : MoveType[] {
+    switch (type) {
+        case MoveType.Punch:
+            return [MoveType.Kick, MoveType.Ranged];
+        case MoveType.Kick:
+            return [MoveType.Grapple, MoveType.Ranged];
+        case MoveType.Grapple:
+            return [MoveType.Ranged, MoveType.Slam];
+        case MoveType.Ranged:
+            return [MoveType.Mental, MoveType.Slam];
+        case MoveType.Mental:
+            return [MoveType.Kick, MoveType.Slam];
+        case MoveType.Slam:
+            return [MoveType.Punch, MoveType.Kick];
+    }
+}
+
 // Calculate move type modifiers
 export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number {
     switch (type) {
@@ -86,6 +120,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 1.25;
                 case MoveType.Slam:
                     return 1.25;
+                default:
+                    return 1;
             }
         case MoveType.Kick:
             switch (lastType) {
@@ -99,6 +135,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 1.25;
                 case MoveType.Slam:
                     return 1.75;
+                default:
+                    return 1;
             }
         case MoveType.Grapple:
             switch (lastType) {
@@ -110,6 +148,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 0.25;
                 case MoveType.Slam:
                     return 0.75;
+                default:
+                    return 1;
             }
         case MoveType.Ranged:
             switch (lastType) {
@@ -123,6 +163,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 0.25;
                 case MoveType.Slam:
                     return 0.25;
+                default:
+                    return 1;
             }
         case MoveType.Mental:
             switch (lastType) {
@@ -134,6 +176,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 1.5;
                 case MoveType.Slam:
                     return 0.5;
+                default:
+                    return 1;
             }
         case MoveType.Slam:
             switch (lastType) {
@@ -147,6 +191,8 @@ export function getBuffByLastMove(type : MoveType, lastType : MoveType) : number
                     return 1.75;
                 case MoveType.Mental:
                     return 1.5;
+                default:
+                    return 1;
             }
     }
 }
