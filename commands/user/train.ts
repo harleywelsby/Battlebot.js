@@ -83,6 +83,7 @@ export function trainOnThread(interaction : any, training : Training, author : U
         .then(channel => {
             if (channel instanceof TextChannel) {
                 channel.send(`<@${author.id}> your ${training.name} has reached level ${training.level}!`);
+                activeTraining.delete(author.id);
                 if (training.level === 1) {
                     players.get(author.id).movelist.push(`1 ${training.name}`);
                     return;
@@ -97,7 +98,6 @@ export function trainOnThread(interaction : any, training : Training, author : U
                         }
                     }
                 }
-                activeTraining.delete(author.id);
             }
         });
     }, getTimeToTrain(training) * 60000);
