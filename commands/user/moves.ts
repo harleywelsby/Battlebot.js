@@ -43,7 +43,7 @@ function getMovesMine(interaction : any) {
             DiscordLogChannel.send(`Moves for player ${author.id} displayed incorrrectly at ${i}: Invalid move`);
         }
         move.level = parseInt(playerEntry.movelist[i].split(' ')[0]);
-        toSend += `L.${playerEntry.movelist[i]} | ${moveEnumToString(move.type)} | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
+        toSend += `L.${playerEntry.movelist[i]} | ${moveEnumToString(move.type)} | ${Math.round(getMoveDamage(move))}dmg | ${Math.round(getMoveAccuracy(move))}acc\n`;
     }
 
     interaction.reply({
