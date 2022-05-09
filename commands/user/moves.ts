@@ -32,7 +32,13 @@ function getMovesMine(interaction : any) {
     var toSend : string = 'Your moves are:\n';
 
     for (let i = 0; i < playerEntry.movelist.length; i++) {
-        var move : Move = moves.get(playerEntry.movelist[i].split(' ')[1].toLowerCase());
+        var movelistMove : Move = moves.get(playerEntry.movelist[i].split(' ')[1].toLowerCase());
+        var move : Move = {
+            name: movelistMove.name,
+            level: movelistMove.level,
+            type: movelistMove.type,
+            damage: movelistMove.damage
+        }
         if (move === null) {
             DiscordLogChannel.send(`Moves for player ${author.id} displayed incorrrectly at ${i}: Invalid move`);
         }

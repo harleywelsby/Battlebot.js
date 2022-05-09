@@ -53,5 +53,5 @@ function getHighestScore(scores : PlayerScore[]) : PlayerScore {
 }
 
 function getKD(wins : number, losses : number) : number {
-    return (losses === 0) ? wins : wins / losses;
+    return (losses == 0) ? wins : wins / losses;
 }

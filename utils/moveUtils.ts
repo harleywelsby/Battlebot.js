@@ -4,6 +4,7 @@ import { DamageModifier, LevelCap, MinDamage } from '../config/config.js';
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
     var toHit : number = move.damage + (move.level * DamageModifier);
+    toHit *= 1.5 // Trial damage booster to keep games interesting
     return toHit > MinDamage ? toHit : MinDamage;
 }
 

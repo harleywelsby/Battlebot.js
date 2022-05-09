@@ -107,20 +107,28 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                     break;
                 case EffectEnum.Confused:
                     var roll = Math.random();
-                    if (roll > 0.75) {
+                    if (roll < 0.75) {
                         confused = true;
                     }
                     break;
             }
-            players.get(attacker.name).effect = undefined;
         }
     }
+
+    // Clear any effects the player may have
+    players.get(attacker.name).effect = undefined;
 
     // Seperate call to factor in status effect acc changes
     if (miss > MissChance) {
         // Hit the opponent
         toHit = Math.round(toHit * 100) / 100;
-        opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
+        if (confused) {
+            // This is the regular line reversed, to have the player hit themselves
+            opponent.name === fight.player1 ? fight.p2hp -= toHit : fight.p1hp -= toHit;
+        }
+        else {
+            opponent.name === fight.player1 ? fight.p1hp -= toHit : fight.p2hp -= toHit;
+        }
 
         // Roll to apply effect to opponents
         players.get(opponent.name).effect = checkForEffect(move, false);
@@ -189,8 +197,8 @@ function gameOver(interaction : any, fight : Fight) {
             
                 // Adjust elo
                 var eloChange : number[] = eloAdjustment(winner, loser);
-                players.get(winner).xp += eloChange[0];
-                players.get(loser).xp += eloChange[1];
+                players.get(winner).xp = parseInt(players.get(winner).xp + eloChange[0]);
+                players.get(loser).xp = parseInt(players.get(loser).xp + eloChange[1]);
             
                 channel.send(`<@${winner}> gained ${eloChange[0]} rank xp!`);
                 channel.send(`<@${loser}> lost ${eloChange[1]} rank xp!`);

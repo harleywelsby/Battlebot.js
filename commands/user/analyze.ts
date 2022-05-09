@@ -11,8 +11,6 @@ export const analyze = new SlashCommandBuilder()
     .addStringOption(option => option.setName('move').setDescription('The move you want to analyze'));
 
 export function doAnalyze(interaction : any) {
-    var author = interaction.member.user;
-
     // Get the move
     var moveString = interaction.options.getString('move')?.toLowerCase();
     if (!moveString) {
