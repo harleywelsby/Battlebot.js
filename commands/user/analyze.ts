@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { LevelCap } from '../../config/config.js';
 import { moves, Move } from '../../data/database.js';
-import { EffectEnum } from '../../data/statusEffectHandler.js';
+import { StatusEffect } from '../../data/statusEffectHandler.js';
 import { getMoveAccuracy, getMoveDamage, getStrongAgainst, getWeakAgainst, moveEnumToString } from '../../utils/moveUtils.js';
 import { checkForEffect } from '../../utils/statusEffectUtils.js';
 
@@ -27,7 +27,7 @@ export function doAnalyze(interaction : any) {
     }
 
     // Get any effects TODO: Currently not working
-    var effect : EffectEnum = checkForEffect(move, true);
+    var effect : StatusEffect = checkForEffect(move, true);
 
     var output = `${move.name} analysis:\n`;
     output += `Min Damage: ${getMoveDamage(move)}, Max Damage: ${getMoveDamage(maxLevelMove)}\n`;

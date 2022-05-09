@@ -6,8 +6,8 @@ import { getBuffByLastMove, getMoveAccuracy, getMoveDamage } from '../../utils/m
 import { MissChance } from '../../config/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
-import { checkForEffect, getClassByEnum } from '../../utils/statusEffectUtils.js';
-import { EffectEnum } from '../../data/statusEffectHandler.js';
+import { checkForEffect } from '../../utils/statusEffectUtils.js';
+import { StatusEffect } from '../../data/statusEffectHandler.js'
 
 export const attack = new SlashCommandBuilder()
     .setName('attack')
@@ -76,7 +76,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
         // Check for effect on attacker and execute it
         if (attacker.effect) {
             switch (attacker.effect) {
-                case EffectEnum.Concussion:
+                case StatusEffect.Concussion:
                     miss -= (Math.random() * 40);
                     break;
                 case EffectEnum.Winded:
