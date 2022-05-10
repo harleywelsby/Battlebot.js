@@ -1,11 +1,11 @@
 import { Move, MoveType, Training } from '../data/database.js';
-import { DamageModifier, LevelCap, MinDamage } from '../config/config.js';
+import { DamageBooster, DamageModifier, LevelCap, MinAccuracy, MinDamage } from '../config/config.js';
 
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
     var toHit : number = move.damage + (move.level * DamageModifier);
-    toHit *= 1.5 // Trial damage booster to keep games interesting
-    return toHit > MinDamage ? toHit : MinDamage;
+    toHit *= DamageBooster;
+    return (toHit > MinDamage) ? toHit : MinDamage;
 }
 
 // Get move as a string
@@ -19,7 +19,7 @@ export function getMoveAccuracy(move : Move) : number {
     miss -= LevelCap - (move.level);
     miss -= move.damage * (-move.level / MinDamage);
 
-    return (miss > -15) ? miss : -15;
+    return (miss > MinAccuracy) ? miss : MinAccuracy;
 }
 
 // Convert move string to enum

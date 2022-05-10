@@ -17,8 +17,10 @@ export var LevelCap : number;
 export var MissChance : number;
 export var AutosaveInterval : number;
 export var MinDamage : number;
+export var MinAccuracy : number;
 export var DamageModifier : number;
 export var EmbedColour : string;
+export var DamageBooster : number;
 
 export function LoadTokenConfig() {
     var json : JSON = require('./TokenConfig.json');
@@ -39,4 +41,6 @@ export function LoadGameConfig() {
     MinDamage = json["MinDamage"];
     DamageModifier = json["DamageModifier"];
     EmbedColour = json["EmbedColour"];
+    DamageBooster = json["DamageBooster"];
+    MinAccuracy = json["MinAccuracy"];
 }

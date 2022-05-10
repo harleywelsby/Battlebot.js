@@ -30,6 +30,20 @@ function constructMoveData() {
     console.log('Moves initialized!');
 }
 
+function constructRankData() {
+    var rankjson : JSON = require('./storage/ranks.json');
+    var rankdata = rankjson["ranks"];
+    for (let i = 0; i < rankdata.length; i++) {
+        var rank : Rank = {
+            name: rankdata[i]["name"].toLowerCase(),
+            start: rankdata[i]["start"],
+            end: rankdata[i]["end"],
+            pic: rankdata[i]["pic"]
+        }
+        ranks.set(`${rank.start} ${rank.end}`, rank);
+    }
+}
+
 function parseMoveType(typeString : string) : MoveType {
     switch (typeString) {
         case 'punch':
@@ -44,19 +58,5 @@ function parseMoveType(typeString : string) : MoveType {
             return MoveType.Mental;
         case 'slam':
             return MoveType.Slam;
-    }
-}
-
-function constructRankData() {
-    var rankjson : JSON = require('./storage/ranks.json');
-    var rankdata = rankjson["ranks"];
-    for (let i = 0; i < rankdata.length; i++) {
-        var rank : Rank = {
-            name: rankdata[i]["name"].toLowerCase(),
-            start: rankdata[i]["start"],
-            end: rankdata[i]["end"],
-            pic: rankdata[i]["pic"]
-        }
-        ranks.set(`${rank.start} ${rank.end}`, rank);
     }
 }
