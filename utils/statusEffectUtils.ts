@@ -4,7 +4,6 @@ import { StatusEffect, statusEffects, MoveEffectChance } from "../data/statusEff
 export function checkForEffect(move : Move, chanceDisabled : boolean) : StatusEffect {
 
     var output : StatusEffect = undefined;
-
     statusEffects.forEach((v,k) => {
         v.forEach((moveEffect : MoveEffectChance) => {
             if (moveEffect.move.toLowerCase() === move.name.toLowerCase()) {

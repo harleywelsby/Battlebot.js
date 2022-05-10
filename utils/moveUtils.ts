@@ -1,10 +1,10 @@
 import { Move, MoveType, Training } from '../data/database.js';
-import { DamageBooster, DamageModifier, LevelCap, MinAccuracy, MinDamage } from '../config/config.js';
+import { DamageModifier, LevelCap, MinDamage } from '../config/config.js';
 
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
     var toHit : number = move.damage + (move.level * DamageModifier);
-    toHit *= DamageBooster;
+    toHit *= 1.5;
     return (toHit > MinDamage) ? toHit : MinDamage;
 }
 
@@ -19,7 +19,8 @@ export function getMoveAccuracy(move : Move) : number {
     miss -= LevelCap - (move.level);
     miss -= move.damage * (-move.level / MinDamage);
 
-    return (miss > MinAccuracy) ? miss : MinAccuracy;
+    // TODO: Should be set to MinAccuracy, although that causes a bug where players always miss.
+    return (miss > -15) ? miss : -15;
 }
 
 // Convert move string to enum

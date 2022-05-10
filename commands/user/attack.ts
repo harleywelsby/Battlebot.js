@@ -84,7 +84,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                     break;
                 case StatusEffect.Dazzled:
                     if (Math.random() < 0.5) {
-                        miss -= (Math.random() * 20);
+                        miss -= (Math.random() * 50);
                     }
                     else {
                         toHit -= (Math.random() * toHit) / 2;

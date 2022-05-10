@@ -4,12 +4,14 @@ import { getLastAutosave, autosave } from './autosave.js';
 // JSON import stuff, see here:
 // https://stackoverflow.com/questions/60205891/import-json-extension-in-es6-node-js-throws-an-error
 import { createRequire } from 'module';
+import { loadStatusEffects } from './statusEffectHandler.js';
 const require = createRequire(import.meta.url);
 
 //Load data
 export function LoadAllData() {
     constructMoveData();
     constructRankData();
+    loadStatusEffects();
     getLastAutosave();
     autosave();
     console.log('Players initialized!');
