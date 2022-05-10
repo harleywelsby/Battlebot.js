@@ -197,8 +197,8 @@ function gameOver(interaction : any, fight : Fight) {
             
                 // Adjust elo
                 var eloChange : number[] = eloAdjustment(winner, loser);
-                players.get(winner).xp = parseInt(players.get(winner).xp + eloChange[0]);
-                players.get(loser).xp = parseInt(players.get(loser).xp + eloChange[1]);
+                players.get(winner).xp = parseInt(players.get(winner).xp) + eloChange[0];
+                players.get(loser).xp = parseInt(players.get(loser).xp) + eloChange[1];
             
                 channel.send(`<@${winner}> gained ${eloChange[0]} rank xp!`);
                 channel.send(`<@${loser}> lost ${eloChange[1]} rank xp!`);
