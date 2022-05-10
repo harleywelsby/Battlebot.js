@@ -30,8 +30,8 @@ export function doAnalyze(interaction : any) {
     var effect : StatusEffect = checkForEffect(move, true);
 
     var output = `${move.name} analysis:\n`;
-    output += `Min Damage: ${getMoveDamage(move)}, Max Damage: ${getMoveDamage(maxLevelMove)}\n`;
-    output += `Min Accuracy: ${getMoveAccuracy(move)}, Max Accuracy: ${getMoveAccuracy(maxLevelMove)}\n`;
+    output += `Min Damage: ${Math.round(getMoveDamage(move))}, Max Damage: ${Math.round(getMoveDamage(maxLevelMove))}\n`;
+    output += `Min Accuracy: ${Math.round(getMoveAccuracy(move))}, Max Accuracy: ${Math.round(getMoveAccuracy(maxLevelMove))}\n`;
     
     if (effect) {
         output += `Causes the ${effect} status effect\n`;

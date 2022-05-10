@@ -10,7 +10,7 @@ export function getMoveDamage(move : Move) : number {
 
 // Get move as a string
 export function getMoveString(move : Move) : string {
-    return `${move.name} \t | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
+    return `${move.name} \t | ${Math.round(getMoveDamage(move))}dmg | ${Math.round(getMoveAccuracy(move))}acc\n`;
 }
 
 // Calculate move accuracy
