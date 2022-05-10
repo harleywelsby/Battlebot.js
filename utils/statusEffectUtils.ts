@@ -23,3 +23,24 @@ export function checkForEffect(move : Move, chanceDisabled : boolean) : StatusEf
 
     return output;
 }
+
+export function getStatusEffectDescription(effect : StatusEffect) : string {
+    switch (effect) {
+        case StatusEffect.Concussion:
+            return ' has been given a concussion! Their accuracy has lowered!';
+        case StatusEffect.Winded:
+            return ' has been winded! Their next move will have less power!';
+        case StatusEffect.Dazzled:
+            return ' has been dazzled! Their next move may be less effective!';
+        case StatusEffect.BrokenArm:
+            return '\'s arm has broken! Their punches and grapples will be less effective!';
+        case StatusEffect.BrokenLeg:
+            return '\'s leg has broken! Their kicks will be less effective!';
+        case StatusEffect.Confused:
+            return ' is confused! (&*$# (*)#&$# !@#* (@*#? ? ??';
+        case StatusEffect.Demoralised:
+            return ' has been demoralized! Their ranged or mental moves will be less effective!';
+        case StatusEffect.Recovered:
+            return ' has recovered! They have gained some health!';
+    }
+}

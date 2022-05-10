@@ -1,4 +1,4 @@
-import { EffectEnum, StatusEffect } from './statusEffectHandler.js';
+import { StatusEffect } from './statusEffectHandler.js';
 
 export var moves = new Map();
 export var players = new Map();
@@ -16,7 +16,7 @@ export type Move = {
 export type Player = {
     name: string;
     xp: number;
-    effect: EffectEnum;
+    effect: StatusEffect;
     movelist: string[];
     lastmove: Move;
     wins: number;

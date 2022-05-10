@@ -6,7 +6,7 @@ import { getBuffByLastMove, getMoveAccuracy, getMoveDamage } from '../../utils/m
 import { MissChance } from '../../config/config.js';
 import { getNameFromId } from '../../utils/playerUtils.js';
 import { bot, DiscordLogChannel } from '../../startup.js';
-import { checkForEffect } from '../../utils/statusEffectUtils.js';
+import { checkForEffect, getStatusEffectDescription } from '../../utils/statusEffectUtils.js';
 import { StatusEffect } from '../../data/statusEffectHandler.js'
 
 export const attack = new SlashCommandBuilder()
@@ -79,10 +79,10 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                 case StatusEffect.Concussion:
                     miss -= (Math.random() * 40);
                     break;
-                case EffectEnum.Winded:
+                case StatusEffect.Winded:
                     toHit -= (Math.random() * toHit);
                     break;
-                case EffectEnum.Dazzled:
+                case StatusEffect.Dazzled:
                     if (Math.random() < 0.5) {
                         miss -= (Math.random() * 20);
                     }
@@ -90,24 +90,24 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
                         toHit -= (Math.random() * toHit) / 2;
                     }
                     break;
-                case EffectEnum.BrokenLeg:
-                    if (move.type === MoveType.Kick) {
+                case StatusEffect.BrokenLeg:
+                    if (move.type === MoveType.Kick || move.type == MoveType.Slam) {
                         toHit -= toHit / 2;
                     }
                     break;
-                case EffectEnum.BrokenArm:
-                    if (move.type === MoveType.Punch) {
+                case StatusEffect.BrokenArm:
+                    if (move.type === MoveType.Punch || move.type === MoveType.Grapple) {
                         toHit -= toHit / 2;
                     }
                     break;
-                case EffectEnum.Demoralised:
+                case StatusEffect.Demoralised:
                     if (move.type === MoveType.Ranged || move.type === MoveType.Mental) {
                         toHit -= toHit / 2;
                     }
                     break;
-                case EffectEnum.Confused:
+                case StatusEffect.Confused:
                     var roll = Math.random();
-                    if (roll < 0.75) {
+                    if (roll < 0.50) {
                         confused = true;
                     }
                     break;
@@ -151,7 +151,7 @@ function playMove(interaction : any, author : User, fight : Fight, move : Move) 
 
     // Add effect string to the end of the embed
     if (players.get(opponent.name).effect) {
-        moveDescription += getNameFromId(opponent.name) + getClassByEnum(players.get(opponent.name).effect).description;
+        moveDescription += getNameFromId(opponent.name) + getStatusEffectDescription(players.get(opponent.name).effect);
     }
 
     moveDescription += `\nIt is now ${getNameFromId(opponent.name)}\'s turn!\n`;
