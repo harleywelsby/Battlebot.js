@@ -3,6 +3,8 @@
     "MissChance": 20,
     "AutosaveInterval": 3600000,
     "MinDamage": 5,
+    "MinAccuracy": -15,
     "DamageModifier": 0.7,
-    "EmbedColour": "#9145B6"
+    "EmbedColour": "#9145B6",
+    "DamageBooster": 1.5
 }

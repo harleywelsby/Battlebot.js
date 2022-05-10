@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { players, ranks } from '../../data/database.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { EMBED_COLOUR } from "../../data/storage/config.js";
+import { EmbedColour } from "../../config/config.js";
 import { bot } from "../../startup.js";
 import { getNameFromId } from "../../utils/playerUtils.js";
 
@@ -27,7 +27,7 @@ export function doProfile(interaction) {
     }
 
     const profileEmbed = new MessageEmbed()
-        .setColor(EMBED_COLOUR)
+        .setColor(EmbedColour)
         .setTitle(`${getNameFromId(author.id)}\'s Rank:`)
         .setDescription(rank.name)
         .setThumbnail(rank.pic)

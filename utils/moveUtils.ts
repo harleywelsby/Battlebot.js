@@ -4,13 +4,13 @@ import { DamageModifier, LevelCap, MinDamage } from '../config/config.js';
 // Calculate move damage with modifiers
 export function getMoveDamage(move : Move) : number {
     var toHit : number = move.damage + (move.level * DamageModifier);
-    toHit *= 1.5 // Trial damage booster to keep games interesting
-    return toHit > MinDamage ? toHit : MinDamage;
+    toHit *= 1.5;
+    return (toHit > MinDamage) ? toHit : MinDamage;
 }
 
 // Get move as a string
 export function getMoveString(move : Move) : string {
-    return `${move.name} \t | ${getMoveDamage(move)}dmg | ${getMoveAccuracy(move)}acc\n`;
+    return `${move.name} \t | ${Math.round(getMoveDamage(move))}dmg | ${Math.round(getMoveAccuracy(move))}acc\n`;
 }
 
 // Calculate move accuracy
@@ -19,6 +19,7 @@ export function getMoveAccuracy(move : Move) : number {
     miss -= LevelCap - (move.level);
     miss -= move.damage * (-move.level / MinDamage);
 
+    // TODO: Should be set to MinAccuracy, although that causes a bug where players always miss.
     return (miss > -15) ? miss : -15;
 }
 

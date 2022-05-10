@@ -4,12 +4,14 @@ import { getLastAutosave, autosave } from './autosave.js';
 // JSON import stuff, see here:
 // https://stackoverflow.com/questions/60205891/import-json-extension-in-es6-node-js-throws-an-error
 import { createRequire } from 'module';
+import { loadStatusEffects } from './statusEffectHandler.js';
 const require = createRequire(import.meta.url);
 
 //Load data
 export function LoadAllData() {
     constructMoveData();
     constructRankData();
+    loadStatusEffects();
     getLastAutosave();
     autosave();
     console.log('Players initialized!');
@@ -30,6 +32,20 @@ function constructMoveData() {
     console.log('Moves initialized!');
 }
 
+function constructRankData() {
+    var rankjson : JSON = require('./storage/ranks.json');
+    var rankdata = rankjson["ranks"];
+    for (let i = 0; i < rankdata.length; i++) {
+        var rank : Rank = {
+            name: rankdata[i]["name"].toLowerCase(),
+            start: rankdata[i]["start"],
+            end: rankdata[i]["end"],
+            pic: rankdata[i]["pic"]
+        }
+        ranks.set(`${rank.start} ${rank.end}`, rank);
+    }
+}
+
 function parseMoveType(typeString : string) : MoveType {
     switch (typeString) {
         case 'punch':
@@ -44,19 +60,5 @@ function parseMoveType(typeString : string) : MoveType {
             return MoveType.Mental;
         case 'slam':
             return MoveType.Slam;
-    }
-}
-
-function constructRankData() {
-    var rankjson : JSON = require('./storage/ranks.json');
-    var rankdata = rankjson["ranks"];
-    for (let i = 0; i < rankdata.length; i++) {
-        var rank : Rank = {
-            name: rankdata[i]["name"].toLowerCase(),
-            start: rankdata[i]["start"],
-            end: rankdata[i]["end"],
-            pic: rankdata[i]["pic"]
-        }
-        ranks.set(`${rank.start} ${rank.end}`, rank);
     }
 }
